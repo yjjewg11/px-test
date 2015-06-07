@@ -6,10 +6,10 @@ import junit.framework.Test;
 import junit.framework.TestSuite;
 import net.sf.json.JSONObject;
 
-import com.company.news.Constants;
-import com.company.news.jsonform.TrainingPlanJsonform;
-import com.company.news.jsonform.UserModifyJsonform;
+import com.company.news.SystemConstants;
+import com.company.news.jsonform.UserRegJsonform;
 import com.company.news.rest.RestConstants;
+import com.company.news.rest.util.MD5Until;
 import com.company.news.rest.util.TimeUtils;
 import com.company.ruanman.httptest.AbstractHttpTest;
 import com.company.ruanman.httptest.HttpUtils;
@@ -40,11 +40,7 @@ public class UserinfoTest extends AbstractHttpTest {
   public static void main(String args[]) throws Exception {
       //junit.textui.TestRunner.run( suite() );
     UserinfoTest o=new UserinfoTest();
-   o.testLoginFailed();
-   o.testLoginSuccess();
-   o.testgetUserInfoSuccess();
-    o.testUserModifySuccess();
-   o.testlogoutSuccess();
+    o.testRegSuccess();
   }
   
   /**
@@ -60,33 +56,26 @@ public class UserinfoTest extends AbstractHttpTest {
    * Verifies that submitting the login form without entering a name results in a page
    * containing the text "Login failed"
    **/
-  public void testUserModifySuccess() throws Exception {
+  public void testRegSuccess() throws Exception {
       WebConversation     conversation = new WebConversation();
       //GetMethodWebRequest
-      UserModifyJsonform form =new UserModifyJsonform();
-      form.setName("飨受人生");
-      form.setBirth(TimeUtils.getCurrentTimestamp());
-      form.setCity("成都");
-      form.setIdentity_card("1234567890123456");
-      form.setContext("我就是我，不一样的烟火");
-      form.setSex(0); 
-      form.setReal_name("猜猜猜");
+      UserRegJsonform form =new UserRegJsonform();
+      form.setName("飨受人生11");
+      form.setGroup_uuid("testuuid");
+      form.setTel("13980223886");
+      String password="123456";
+      form.setPassword(MD5Until.getMD5String(password));
+  
       String json=JSONUtils.getJsonString(form);
       HttpUtils.printjson(json);
-      ByteArrayInputStream input=new ByteArrayInputStream(json.getBytes(Constants.Charset));
-      PostMethodWebRequest  request = new PostMethodWebRequest( TestConstants.host+"rest/userinfo/modify.json"+this.addParameter_JSESSIONID()+"&verify=marathon",input,TestConstants.contentType );
-      request.setParameter(RestConstants.Return_JSESSIONID, getLoginSessionid());
+      ByteArrayInputStream input=new ByteArrayInputStream(json.getBytes(SystemConstants.Charset));
+      PostMethodWebRequest  request = new PostMethodWebRequest( TestConstants.host+"rest/userinfo/reg.json",input,TestConstants.contentType );
+
       WebResponse response = tryGetResponse(conversation, request );
        
-        HttpUtils.println(conversation, request, response);
-        assertTrue( "修改-成功", response.getText().indexOf( "success" ) != -1 );
-//      if (response.getContentType().equals("application/json")) {
-//        String json = response.getText();
-//        Map<String, String> map = new Gson().fromJson(json, new TypeToken<Map<String, String>>() {}.getType());
-//        System.out.println(map.get("displayName")); // Benju
-//       }
-//
-//      assertTrue( "Login not rejected", response.getText().indexOf( "Login failed" ) != -1 );
+      HttpUtils.println(conversation, request, response);
+      assertTrue( "注册-成功", response.getText().indexOf( "success" ) != -1 );
+      
   }
 
   /**
