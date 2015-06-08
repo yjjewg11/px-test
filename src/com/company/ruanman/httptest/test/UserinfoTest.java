@@ -40,7 +40,11 @@ public class UserinfoTest extends AbstractHttpTest {
   public static void main(String args[]) throws Exception {
       //junit.textui.TestRunner.run( suite() );
     UserinfoTest o=new UserinfoTest();
-    o.testRegSuccess();
+    //o.testRegSuccess();
+    o.testLoginSuccess();
+    o.testLoginFailed();
+    o.testgetUserInfoSuccess();
+    o.testlogoutSuccess();
   }
   
   /**
@@ -60,7 +64,7 @@ public class UserinfoTest extends AbstractHttpTest {
       WebConversation     conversation = new WebConversation();
       //GetMethodWebRequest
       UserRegJsonform form =new UserRegJsonform();
-      form.setName("飨受人生11");
+      form.setName("jbb");
       form.setGroup_uuid("testuuid");
       form.setTel("13980223886");
       String password="123456";
@@ -85,22 +89,14 @@ public class UserinfoTest extends AbstractHttpTest {
   public void testLoginFailed() throws Exception {
       WebConversation     conversation = new WebConversation();
       //GetMethodWebRequest
-      WebRequest  request = new PostMethodWebRequest( TestConstants.host+"rest/userinfo/login.json?loginname=13628037995&password=12" );
+      WebRequest  request = new PostMethodWebRequest( TestConstants.host+"rest/userinfo/login.json?loginname="+"xxx"+"&password="+MD5Until.getMD5String("123456") );
         WebResponse response = tryGetResponse(conversation, request );
 //      WebForm loginForm = response.getForms()[0];
 //      request = loginForm.getRequest();
 //      response = conversation.getResponse( request );
-        
         HttpUtils.println(conversation, request, response);
-        assertTrue( "登录-失败-密码错误", response.getText().indexOf( "failed" ) != -1 );
-//      if (response.getContentType().equals("application/json")) {
-//        String json = response.getText();
-//        Map<String, String> map = new Gson().fromJson(json, new TypeToken<Map<String, String>>() {}.getType());
-//        System.out.println(map.get("displayName")); // Benju
-//       }
-//
-//      assertTrue( "Login not rejected", response.getText().indexOf( "Login failed" ) != -1 );
-  }
+        assertTrue( "登录-失败", response.getText().indexOf( "failed" ) != -1 );
+        }
   
 
   /**
@@ -110,7 +106,7 @@ public class UserinfoTest extends AbstractHttpTest {
   public void testLoginSuccess() throws Exception {
       WebConversation     conversation = new WebConversation();
       //GetMethodWebRequest
-      WebRequest  request = new PostMethodWebRequest( TestConstants.host+"rest/userinfo/login.json?loginname=13628037994&password=1" );
+      WebRequest  request = new PostMethodWebRequest( TestConstants.host+"rest/userinfo/login.json?loginname="+"13980223886"+"&password="+MD5Until.getMD5String("123456") );
         WebResponse response = tryGetResponse(conversation, request );
 //      WebForm loginForm = response.getForms()[0];
 //      request = loginForm.getRequest();
@@ -122,7 +118,7 @@ public class UserinfoTest extends AbstractHttpTest {
       if (response.getContentType().equals("application/json")) {
         JSONObject jsonObject = JSONObject.fromObject(response.getText());
         this.sessionid=(String)jsonObject.get("JSESSIONID");
-        System.out.println("JSESSIONID="+this.sessionid); // Benju
+        //System.out.println("JSESSIONID="+this.sessionid); // Benju
        }
 //
 //      assertTrue( "Login not rejected", response.getText().indexOf( "Login failed" ) != -1 );
