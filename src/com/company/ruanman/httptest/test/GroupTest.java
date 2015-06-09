@@ -36,9 +36,9 @@ public class GroupTest extends AbstractHttpTest {
 		
 		GroupTest o = new GroupTest();
 		// o.testRegSuccess();
-		//o.testRegSuccess();
+		o.testRegSuccess();
 
-		o.testAddSuccess();
+		//o.testAddSuccess();
 	}
 
 	/**
@@ -61,15 +61,16 @@ public class GroupTest extends AbstractHttpTest {
 		GroupRegJsonform form = new GroupRegJsonform();
 		form.setName("jbb");
 		form.setGroup_uuid("testuuid");
-		form.setTel("13980223885");
+		form.setTel("13980223889");
 		String password = "123456";
 		form.setPassword(MD5Until.getMD5String(password));
 
 		form.setAddress("成都市青羊区");
 		form.setBrand_name("金苹果");
-		form.setCompany_name("金苹果航空港幼儿园");
+		form.setCompany_name("金苹果航空港幼儿园-5");
 		form.setLink_tel("028-85467899");
 		form.setMap_point("116.387884,39.888809");
+		form.setType(1);
 
 		String json = JSONUtils.getJsonString(form);
 		HttpUtils.printjson(json);
@@ -112,9 +113,10 @@ public class GroupTest extends AbstractHttpTest {
 
 		form.setAddress("成都市青羊区");
 		form.setBrand_name("金苹果");
-		form.setCompany_name("金苹果航空港幼儿园-3");
+		form.setCompany_name("金苹果航空港幼儿园-4");
 		form.setLink_tel("028-85467899");
 		form.setMap_point("116.387884,39.888809");
+		form.setType(1);
 
 		String json = JSONUtils.getJsonString(form);
 		HttpUtils.printjson(json);
