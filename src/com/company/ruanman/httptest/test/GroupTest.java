@@ -23,7 +23,7 @@ import com.meterware.httpunit.WebRequest;
 import com.meterware.httpunit.WebResponse;
 
 public class GroupTest extends AbstractHttpTest {
-
+	  public UserinfoTest user= new UserinfoTest();
 	/**
 	 * run this testcase as a suite from the command line
 	 * 
@@ -33,10 +33,12 @@ public class GroupTest extends AbstractHttpTest {
 	 */
 	public static void main(String args[]) throws Exception {
 		// junit.textui.TestRunner.run( suite() );
+		
 		GroupTest o = new GroupTest();
 		// o.testRegSuccess();
 		//o.testRegSuccess();
-		o.testgetGroupSuccess();
+
+		o.testAddSuccess();
 	}
 
 	/**
@@ -84,7 +86,7 @@ public class GroupTest extends AbstractHttpTest {
 
 	}
 
-	public void testgetGroupSuccess() throws Exception {
+	public void testGroupListSuccess() throws Exception {
 		WebConversation conversation = new WebConversation();
 		// GetMethodWebRequest
 		WebRequest request = new GetMethodWebRequest(TestConstants.host
@@ -94,6 +96,38 @@ public class GroupTest extends AbstractHttpTest {
 
 		HttpUtils.println(conversation, request, response);
 		assertTrue("机构列表-成功", response.getText().indexOf("success") != -1);
+
+	}
+	
+	
+	/**
+	 * Verifies that submitting the login form without entering a name results
+	 * in a page containing the text "Login failed"
+	 **/
+	public void testAddSuccess() throws Exception {
+		WebConversation conversation = new WebConversation();
+		// GetMethodWebRequest
+
+		GroupRegJsonform form = new GroupRegJsonform();
+
+		form.setAddress("成都市青羊区");
+		form.setBrand_name("金苹果");
+		form.setCompany_name("金苹果航空港幼儿园-3");
+		form.setLink_tel("028-85467899");
+		form.setMap_point("116.387884,39.888809");
+
+		String json = JSONUtils.getJsonString(form);
+		HttpUtils.printjson(json);
+		ByteArrayInputStream input = new ByteArrayInputStream(
+				json.getBytes(SystemConstants.Charset));
+		PostMethodWebRequest request = new PostMethodWebRequest(
+				TestConstants.host + "rest/group/add.json"+user.addParameter_JSESSIONID(), input,
+				TestConstants.contentType);
+
+		WebResponse response = tryGetResponse(conversation, request);
+
+		HttpUtils.println(conversation, request, response);
+		assertTrue("机构增加-成功", response.getText().indexOf("success") != -1);
 
 	}
 

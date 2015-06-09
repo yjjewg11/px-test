@@ -41,10 +41,10 @@ public class UserinfoTest extends AbstractHttpTest {
       //junit.textui.TestRunner.run( suite() );
     UserinfoTest o=new UserinfoTest();
     //o.testRegSuccess();
-    o.testLoginSuccess();
-    o.testLoginFailed();
-    o.testgetUserInfoSuccess();
-    o.testlogoutSuccess();
+    //o.testLoginSuccess();
+    //o.testLoginFailed();
+    //o.testgetUserInfoSuccess();
+    o.testAddSuccess();
   }
   
   /**
@@ -171,5 +171,32 @@ public class UserinfoTest extends AbstractHttpTest {
 
   public void setSessionid(String sessionid) {
     this.sessionid = sessionid;
+  }
+  
+  /**
+   * Verifies that submitting the login form without entering a name results in a page
+   * containing the text "Login failed"
+   **/
+  public void testAddSuccess() throws Exception {
+      WebConversation     conversation = new WebConversation();
+      //GetMethodWebRequest
+      UserRegJsonform form =new UserRegJsonform();
+      form.setName("jbb");
+      form.setGroup_uuid("testuuid");
+      form.setTel("13980223880");
+      String password="123456";
+      form.setPassword(MD5Until.getMD5String(password));
+      form.setType(0);
+  
+      String json=JSONUtils.getJsonString(form);
+      HttpUtils.printjson(json);
+      ByteArrayInputStream input=new ByteArrayInputStream(json.getBytes(SystemConstants.Charset));
+      PostMethodWebRequest  request = new PostMethodWebRequest( TestConstants.host+"rest/userinfo/add.json"+this.addParameter_JSESSIONID(),input,TestConstants.contentType );
+
+      WebResponse response = tryGetResponse(conversation, request );
+       
+      HttpUtils.println(conversation, request, response);
+      assertTrue( "新增-成功", response.getText().indexOf( "success" ) != -1 );
+      
   }
 }
