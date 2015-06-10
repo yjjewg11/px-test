@@ -22,7 +22,7 @@ import com.meterware.httpunit.WebConversation;
 import com.meterware.httpunit.WebRequest;
 import com.meterware.httpunit.WebResponse;
 
-public class RightTest extends AbstractHttpTest {
+public class RoleTest extends AbstractHttpTest {
 	  public UserinfoTest user= new UserinfoTest();
 	/**
 	 * run this testcase as a suite from the command line
@@ -34,17 +34,19 @@ public class RightTest extends AbstractHttpTest {
 	public static void main(String args[]) throws Exception {
 		// junit.textui.TestRunner.run( suite() );
 		
-		RightTest o = new RightTest();
+		RoleTest o = new RoleTest();
 		// o.testRegSuccess();
 		//o.testUpdateSuccess();
         
-		//o.testListSuccess();
+		o.testListSuccess();
 		
 		//o.testAddSuccess();
 		
 		//o.testUpdateSuccess();
 		
-		o.testDeleteSuccess();
+		//o.testAddSuccess();
+		o.testUpdateRightSuccess();
+		o.testGetRightSuccess();
 	}
 
 	/**
@@ -53,7 +55,7 @@ public class RightTest extends AbstractHttpTest {
 	 * @return
 	 */
 	public static Test suite() {
-		return new TestSuite(RightTest.class);
+		return new TestSuite(RoleTest.class);
 	}
 
 	/**
@@ -64,15 +66,15 @@ public class RightTest extends AbstractHttpTest {
 		WebConversation conversation = new WebConversation();
 		// GetMethodWebRequest
 
-		String name="CDNEW3";
-			String description="新建权限";
+		String name="园长1";
+			String description="新建角色";
 		PostMethodWebRequest request = new PostMethodWebRequest(
-				TestConstants.host + "rest/right/add.json"+user.addParameter_JSESSIONID()+"&name="+name+"&description="+description);
+				TestConstants.host + "rest/role/add.json"+user.addParameter_JSESSIONID()+"&name="+name+"&description="+description);
 
 		WebResponse response = tryGetResponse(conversation, request);
 
 		HttpUtils.println(conversation, request, response);
-		assertTrue("增加权限-成功", response.getText().indexOf("success") != -1);
+		assertTrue("增加-成功", response.getText().indexOf("success") != -1);
 
 	}
 
@@ -80,12 +82,26 @@ public class RightTest extends AbstractHttpTest {
 		WebConversation conversation = new WebConversation();
 		// GetMethodWebRequest
 		WebRequest request = new GetMethodWebRequest(TestConstants.host
-				+ "rest/right/list.json"+user.addParameter_JSESSIONID());
+				+ "rest/role/list.json"+user.addParameter_JSESSIONID());
 
 		WebResponse response = tryGetResponse(conversation, request);
 
 		HttpUtils.println(conversation, request, response);
-		assertTrue("机构列表-成功", response.getText().indexOf("success") != -1);
+		assertTrue("列表-成功", response.getText().indexOf("success") != -1);
+
+	}
+	
+	
+	public void testGetRightSuccess() throws Exception {
+		WebConversation conversation = new WebConversation();
+		// GetMethodWebRequest
+		WebRequest request = new GetMethodWebRequest(TestConstants.host
+				+ "rest/role/getRight.json"+user.addParameter_JSESSIONID()+"&uuid=2b78f04b-f8f6-49e3-bd80-b378ed2e4a5a");
+
+		WebResponse response = tryGetResponse(conversation, request);
+
+		HttpUtils.println(conversation, request, response);
+		assertTrue("列表-成功", response.getText().indexOf("success") != -1);
 
 	}
 	
@@ -98,16 +114,16 @@ public class RightTest extends AbstractHttpTest {
 		WebConversation conversation = new WebConversation();
 		// GetMethodWebRequest
 
-		String name="CDNEW7";
+		String name="家长";
 			String description="222222";
 		PostMethodWebRequest request = new PostMethodWebRequest(
-				TestConstants.host + "rest/right/update.json"+user.addParameter_JSESSIONID()+
-				"&uuid=7034a8cd-ada6-461b-a272-91e08a8fec2e&name="+name+"&description="+description);
+				TestConstants.host + "rest/role/update.json"+user.addParameter_JSESSIONID()+
+				"&uuid=2b78f04b-f8f6-49e3-bd80-b378ed2e4a5a&name="+name+"&description="+description);
 
 		WebResponse response = tryGetResponse(conversation, request);
 
 		HttpUtils.println(conversation, request, response);
-		assertTrue("修改权限-成功", response.getText().indexOf("success") != -1);
+		assertTrue("修改-成功", response.getText().indexOf("success") != -1);
 
 	}
 	
@@ -120,15 +136,38 @@ public class RightTest extends AbstractHttpTest {
 		// GetMethodWebRequest
 
 		PostMethodWebRequest request = new PostMethodWebRequest(
-				TestConstants.host + "rest/right/delete.json"+user.addParameter_JSESSIONID()+
-				"&uuid=35a63e01-af07-4eab-bc48-2bc8585cbe63");
+				TestConstants.host + "rest/role/delete.json"+user.addParameter_JSESSIONID()+
+				"&uuid=3dd64fa1-f155-459b-883d-0ab1d77d5ced");
 
 		WebResponse response = tryGetResponse(conversation, request);
 
 		HttpUtils.println(conversation, request, response);
-		assertTrue("删除权限-成功", response.getText().indexOf("success") != -1);
+		assertTrue("删除-成功", response.getText().indexOf("success") != -1);
 
 	}
+	
+	
+	/**
+	 * Verifies that submitting the login form without entering a name results
+	 * in a page containing the text "Login failed"
+	 **/
+	public void testUpdateRightSuccess() throws Exception {
+		WebConversation conversation = new WebConversation();
+		// GetMethodWebRequest
+
+		String roleuuid="2b78f04b-f8f6-49e3-bd80-b378ed2e4a5a";
+			String rightuuid="3bbca1b8-1f3b-4450-aa41-87e65dff72a2,e2d9885f-c5cd-42a1-b588-8ad6a159cb99";
+		PostMethodWebRequest request = new PostMethodWebRequest(
+				TestConstants.host + "rest/role/updateRight.json"+user.addParameter_JSESSIONID()+
+				"&roleuuid="+roleuuid+"&rightuuid="+rightuuid);
+
+		WebResponse response = tryGetResponse(conversation, request);
+
+		HttpUtils.println(conversation, request, response);
+		assertTrue("修改-成功", response.getText().indexOf("success") != -1);
+
+	}
+	
 	
 	
 
