@@ -38,13 +38,13 @@ public class RightTest extends AbstractHttpTest {
 		// o.testRegSuccess();
 		//o.testUpdateSuccess();
         
-		//o.testListSuccess();
+		o.testListSuccess();
 		
 		//o.testAddSuccess();
 		
 		//o.testUpdateSuccess();
 		
-		o.testDeleteSuccess();
+		//o.testDeleteSuccess();
 	}
 
 	/**

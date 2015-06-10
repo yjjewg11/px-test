@@ -36,8 +36,8 @@ public class GroupTest extends AbstractHttpTest {
 		
 		GroupTest o = new GroupTest();
 		// o.testRegSuccess();
-		o.testRegSuccess();
-
+		o.testMyListSuccess();
+//o.testGroupListSuccess();
 		//o.testAddSuccess();
 	}
 
@@ -92,6 +92,20 @@ public class GroupTest extends AbstractHttpTest {
 		// GetMethodWebRequest
 		WebRequest request = new GetMethodWebRequest(TestConstants.host
 				+ "rest/group/list.json");
+
+		WebResponse response = tryGetResponse(conversation, request);
+
+		HttpUtils.println(conversation, request, response);
+		assertTrue("机构列表-成功", response.getText().indexOf("success") != -1);
+
+	}
+	
+	
+	public void testMyListSuccess() throws Exception {
+		WebConversation conversation = new WebConversation();
+		// GetMethodWebRequest
+		WebRequest request = new GetMethodWebRequest(TestConstants.host
+				+ "rest/group/myList.json"+user.addParameter_JSESSIONID());
 
 		WebResponse response = tryGetResponse(conversation, request);
 
