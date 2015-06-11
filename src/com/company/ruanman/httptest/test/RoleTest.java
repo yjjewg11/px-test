@@ -38,15 +38,15 @@ public class RoleTest extends AbstractHttpTest {
 		// o.testRegSuccess();
 		//o.testUpdateSuccess();
         
-		o.testListSuccess();
+		//o.testListSuccess();
 		
 		//o.testAddSuccess();
 		
-		//o.testUpdateSuccess();
+		o.testUpdateSuccess();
 		
 		//o.testAddSuccess();
-		o.testUpdateRightSuccess();
-		o.testGetRightSuccess();
+		//o.testUpdateRightSuccess();
+		//o.testGetRightSuccess();
 	}
 
 	/**
@@ -69,7 +69,7 @@ public class RoleTest extends AbstractHttpTest {
 		String name="园长1";
 			String description="新建角色";
 		PostMethodWebRequest request = new PostMethodWebRequest(
-				TestConstants.host + "rest/role/add.json"+user.addParameter_JSESSIONID()+"&name="+name+"&description="+description);
+				TestConstants.host + "rest/role/save.json"+user.addParameter_JSESSIONID()+"&name="+name+"&description="+description);
 
 		WebResponse response = tryGetResponse(conversation, request);
 
@@ -117,7 +117,7 @@ public class RoleTest extends AbstractHttpTest {
 		String name="家长";
 			String description="222222";
 		PostMethodWebRequest request = new PostMethodWebRequest(
-				TestConstants.host + "rest/role/update.json"+user.addParameter_JSESSIONID()+
+				TestConstants.host + "rest/role/save.json"+user.addParameter_JSESSIONID()+
 				"&uuid=2b78f04b-f8f6-49e3-bd80-b378ed2e4a5a&name="+name+"&description="+description);
 
 		WebResponse response = tryGetResponse(conversation, request);

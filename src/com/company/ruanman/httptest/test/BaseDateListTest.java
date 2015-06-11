@@ -38,11 +38,11 @@ public class BaseDateListTest extends AbstractHttpTest {
 		// o.testRegSuccess();
 		//o.testUpdateSuccess();
         
-		o.testListSuccess();
+		//o.testListSuccess();
 		
 		//o.testAddSuccess();
 		
-		//o.testUpdateSuccess();
+		o.testUpdateSuccess();
 		
 		//o.testDeleteSuccess();
 	}
@@ -70,7 +70,7 @@ public class BaseDateListTest extends AbstractHttpTest {
 			String typeuuid="0f94ebf7-318f-4f0c-af83-a65a2f23125c";
 			int enable=1;
 		PostMethodWebRequest request = new PostMethodWebRequest(
-				TestConstants.host + "rest/basedatalist/add.json"+user.addParameter_JSESSIONID()+
+				TestConstants.host + "rest/basedatalist/save.json"+user.addParameter_JSESSIONID()+
 				"&datavalue="+value+"&description="+description+"&datakey="+key+"&typeuuid="+typeuuid+"&enable="+enable);
 
 		WebResponse response = tryGetResponse(conversation, request);
@@ -108,9 +108,9 @@ public class BaseDateListTest extends AbstractHttpTest {
 			String description="yige";
 			String typeuuid="0f94ebf7-318f-4f0c-af83-a65a2f23125c";
 			int enable=0;
-			String uuid="6730242a-a5a3-4c28-929b-8dbe172a3ff9";
+			String uuid="d53f2136-0b54-4478-bbd7-f762966a6dd9";
 		PostMethodWebRequest request = new PostMethodWebRequest(
-				TestConstants.host + "rest/basedatalist/update.json"+user.addParameter_JSESSIONID()+
+				TestConstants.host + "rest/basedatalist/save.json"+user.addParameter_JSESSIONID()+
 				"&datavalue="+value+"&description="+description+"&datakey="+key+"&typeuuid="+typeuuid+"&enable="+enable
 				+"&uuid="+uuid);
 

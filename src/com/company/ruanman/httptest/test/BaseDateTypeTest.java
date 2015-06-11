@@ -42,9 +42,9 @@ public class BaseDateTypeTest extends AbstractHttpTest {
 		
 		//o.testAddSuccess();
 		
-		//o.testUpdateSuccess();
+		o.testUpdateSuccess();
 		
-		o.testDeleteSuccess();
+		//o.testDeleteSuccess();
 	}
 
 	/**
@@ -64,10 +64,10 @@ public class BaseDateTypeTest extends AbstractHttpTest {
 		WebConversation conversation = new WebConversation();
 		// GetMethodWebRequest
 
-		String name="CDNEW5";
+		String name="CDNEW55";
 			String description="新建权限";
 		PostMethodWebRequest request = new PostMethodWebRequest(
-				TestConstants.host + "rest/basedatatype/add.json"+user.addParameter_JSESSIONID()+"&name="+name+"&description="+description
+				TestConstants.host + "rest/basedatatype/save.json"+user.addParameter_JSESSIONID()+"&name="+name+"&description="+description
 				+"");
 
 		WebResponse response = tryGetResponse(conversation, request);
@@ -99,11 +99,11 @@ public class BaseDateTypeTest extends AbstractHttpTest {
 		WebConversation conversation = new WebConversation();
 		// GetMethodWebRequest
 
-		String name="CDNEW7";
+		String name="CDNEW55";
 			String description="222222";
 		PostMethodWebRequest request = new PostMethodWebRequest(
-				TestConstants.host + "rest/basedatatype/update.json"+user.addParameter_JSESSIONID()+
-				"&uuid=0c9d1973-e6df-445d-a25d-75075cb49758&name="+name+"&description="+description);
+				TestConstants.host + "rest/basedatatype/save.json"+user.addParameter_JSESSIONID()+
+				"&uuid=be1e6358-6ef1-4214-a216-76a71edc4202&name="+name+"&description="+description);
 
 		WebResponse response = tryGetResponse(conversation, request);
 
