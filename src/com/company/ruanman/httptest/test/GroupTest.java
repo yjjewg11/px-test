@@ -36,9 +36,9 @@ public class GroupTest extends AbstractHttpTest {
 		
 		GroupTest o = new GroupTest();
 		// o.testRegSuccess();
-		o.testMyListSuccess();
+		//o.testMyListSuccess();
 //o.testGroupListSuccess();
-		//o.testAddSuccess();
+		o.testAddSuccess();
 	}
 
 	/**
@@ -127,17 +127,18 @@ public class GroupTest extends AbstractHttpTest {
 
 		form.setAddress("成都市青羊区");
 		form.setBrand_name("金苹果");
-		form.setCompany_name("金苹果航空港幼儿园-4");
+		form.setCompany_name("金苹果航空港幼儿园-11");
 		form.setLink_tel("028-85467899");
 		form.setMap_point("116.387884,39.888809");
 		form.setType(1);
+		form.setUuid("91ba8426-641f-471d-a252-07132e11934e");
 
 		String json = JSONUtils.getJsonString(form);
 		HttpUtils.printjson(json);
 		ByteArrayInputStream input = new ByteArrayInputStream(
 				json.getBytes(SystemConstants.Charset));
 		PostMethodWebRequest request = new PostMethodWebRequest(
-				TestConstants.host + "rest/group/add.json"+user.addParameter_JSESSIONID(), input,
+				TestConstants.host + "rest/group/save.json"+user.addParameter_JSESSIONID(), input,
 				TestConstants.contentType);
 
 		WebResponse response = tryGetResponse(conversation, request);
