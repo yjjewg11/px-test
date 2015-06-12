@@ -43,7 +43,7 @@ public class UserinfoTest extends AbstractHttpTest {
     //o.testRegSuccess();
     o.testLoginSuccess();
     //o.testLoginFailed();
-    o.testgetUserInfoSuccess();
+    //o.testUpdateSuccess();
     //o.testAddSuccess();
   }
   
@@ -199,4 +199,40 @@ public class UserinfoTest extends AbstractHttpTest {
       assertTrue( "新增-成功", response.getText().indexOf( "success" ) != -1 );
       
   }
+  
+  
+  /**
+   * Verifies that submitting the login form without entering a name results in a page
+   * containing the text "Login failed"
+   **/
+	public void testListSuccess() throws Exception {
+		WebConversation conversation = new WebConversation();
+		// GetMethodWebRequest
+		WebRequest request = new GetMethodWebRequest(TestConstants.host
+				+ "rest/group/list.json"+this.addParameter_JSESSIONID()+"&groupuuid=004739cb-856b-4fd0-bfa2-8f352561ebf7");
+
+		WebResponse response = tryGetResponse(conversation, request);
+
+		HttpUtils.println(conversation, request, response);
+		assertTrue("列表-成功", response.getText().indexOf("success") != -1);
+
+	}
+	
+	
+	public void testUpdateSuccess() throws Exception {
+		WebConversation conversation = new WebConversation();
+		// GetMethodWebRequest
+
+		String disable="1";
+			String useruuid="a0ef66fb-838b-4ebd-8f75-16ee60fd2030";
+		PostMethodWebRequest request = new PostMethodWebRequest(
+				TestConstants.host + "rest/userinfo/updateDisable.json"+this.addParameter_JSESSIONID()+
+				"&useruuid="+useruuid+"&disable="+disable);
+
+		WebResponse response = tryGetResponse(conversation, request);
+
+		HttpUtils.println(conversation, request, response);
+		assertTrue("修改-成功", response.getText().indexOf("success") != -1);
+
+	}
 }
