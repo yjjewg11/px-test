@@ -39,13 +39,13 @@ public class AnnouncementsTest extends AbstractHttpTest {
 		// o.testRegSuccess();
 		//o.testUpdateSuccess();
         
-		o.testListSuccess();
+		//o.testListSuccess();
 		
 		//o.testAddSuccess();
 		
 		///o.testUpdateSuccess();
 		
-		o.testDeleteSuccess();
+		o.testGetSuccess();
 	}
 
 	/**
@@ -94,7 +94,7 @@ public class AnnouncementsTest extends AbstractHttpTest {
 		// GetMethodWebRequest
 		WebRequest request = new GetMethodWebRequest(TestConstants.host
 				+ "rest/announcements/queryMyAnnouncements.json"+user.addParameter_JSESSIONID()
-				+"&type=2&groupuuid=4df131a6-042e-4808-b03c-94d99533ea12&classuuid=23101220-0cae-423c-acda-b3642ddcb501");
+				+"&type=2&groupuuid=4df131a6-042e-4808-b03c-94d99533ea12&classuuid=51a05579-cf42-42aa-aafc-4ef0a520e1e8");
 
 		WebResponse response = tryGetResponse(conversation, request);
 
@@ -124,6 +124,17 @@ public class AnnouncementsTest extends AbstractHttpTest {
 
 	}
 	
-	
+	public void testGetSuccess() throws Exception {
+		WebConversation conversation = new WebConversation();
+		// GetMethodWebRequest
+		WebRequest request = new GetMethodWebRequest(TestConstants.host
+				+ "rest/announcements/df2edffd-6540-4370-be2c-c1429ed89249.json"+user.addParameter_JSESSIONID());
+
+		WebResponse response = tryGetResponse(conversation, request);
+
+		HttpUtils.println(conversation, request, response);
+		assertTrue("成功", response.getText().indexOf("success") != -1);
+
+	}
 
 }
