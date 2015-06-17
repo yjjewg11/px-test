@@ -42,7 +42,7 @@ public class RoleTest extends AbstractHttpTest {
 		
 		//o.testAddSuccess();
 		
-		o.testUpdateSuccess();
+		o.testUpdateRightSuccess();
 		
 		//o.testAddSuccess();
 		//o.testUpdateRightSuccess();

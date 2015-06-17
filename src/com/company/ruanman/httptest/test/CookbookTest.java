@@ -8,7 +8,6 @@ import net.sf.json.JSONObject;
 
 import com.company.news.SystemConstants;
 import com.company.news.jsonform.GroupRegJsonform;
-import com.company.news.jsonform.StudentJsonform;
 import com.company.news.jsonform.UserRegJsonform;
 import com.company.news.rest.RestConstants;
 import com.company.news.rest.util.MD5Until;
@@ -23,7 +22,7 @@ import com.meterware.httpunit.WebConversation;
 import com.meterware.httpunit.WebRequest;
 import com.meterware.httpunit.WebResponse;
 
-public class StudentTest extends AbstractHttpTest {
+public class CookbookTest extends AbstractHttpTest {
 	  public UserinfoTest user= new UserinfoTest();
 	/**
 	 * run this testcase as a suite from the command line
@@ -35,11 +34,11 @@ public class StudentTest extends AbstractHttpTest {
 	public static void main(String args[]) throws Exception {
 		// junit.textui.TestRunner.run( suite() );
 		
-		StudentTest o = new StudentTest();
+		CookbookTest o = new CookbookTest();
 		// o.testRegSuccess();
-		//o.testMyListSuccess();
-        o.testGetSuccess();
-		//o.testAddSuccess();
+		//o.testListSuccess();
+//o.testGroupListSuccess();
+		o.testDeleteSuccess();
 	}
 
 	/**
@@ -48,38 +47,23 @@ public class StudentTest extends AbstractHttpTest {
 	 * @return
 	 */
 	public static Test suite() {
-		return new TestSuite(StudentTest.class);
+		return new TestSuite(CookbookTest.class);
 	}
 
 
 
 
-	
 	
 	public void testListSuccess() throws Exception {
 		WebConversation conversation = new WebConversation();
 		// GetMethodWebRequest
 		WebRequest request = new GetMethodWebRequest(TestConstants.host
-				+ "rest/student/getStudentByClassuuid.json"+user.addParameter_JSESSIONID()
-				+"&classuuid=e1591749-3551-410d-91e3-b6f3151fdeae");
+				+ "rest/cookbook/list.json"+user.addParameter_JSESSIONID()+"&type=1&groupuuid=91ba8426-641f-471d-a252-07132e11934e");
 
 		WebResponse response = tryGetResponse(conversation, request);
 
 		HttpUtils.println(conversation, request, response);
-		assertTrue("机构-成功", response.getText().indexOf("success") != -1);
-
-	}
-	
-	public void testGetSuccess() throws Exception {
-		WebConversation conversation = new WebConversation();
-		// GetMethodWebRequest
-		WebRequest request = new GetMethodWebRequest(TestConstants.host
-				+ "rest/student/6828eb86-c345-4af2-9fa5-02b4b35d29b2.json"+user.addParameter_JSESSIONID());
-
-		WebResponse response = tryGetResponse(conversation, request);
-
-		HttpUtils.println(conversation, request, response);
-		assertTrue("成功", response.getText().indexOf("success") != -1);
+		assertTrue("列表-成功", response.getText().indexOf("success") != -1);
 
 	}
 	
@@ -92,20 +76,10 @@ public class StudentTest extends AbstractHttpTest {
 		WebConversation conversation = new WebConversation();
 		// GetMethodWebRequest
 
-		StudentJsonform s = new StudentJsonform();
 
-		s.setName("成都市青羊区1");
-		s.setClassuuid("e1591749-3551-410d-91e3-b6f3151fdeae");
-		//s.setUuid("7556cd0e-9e1d-42e2-8da1-49572d2fd8c2");
-		s.setNickname("小甜甜");
-
-		String json = JSONUtils.getJsonString(s);
-		HttpUtils.printjson(json);
-		ByteArrayInputStream input = new ByteArrayInputStream(
-				json.getBytes(SystemConstants.Charset));
 		PostMethodWebRequest request = new PostMethodWebRequest(
-				TestConstants.host + "rest/student/save.json"+user.addParameter_JSESSIONID(), input,
-				TestConstants.contentType);
+				TestConstants.host + "rest/cookbook/save.json"+user.addParameter_JSESSIONID()
+				+"&type=1&img=dfajlfjdlasfjldsajf&name=xigua&groupuuid=91ba8426-641f-471d-a252-07132e11934e");
 
 		WebResponse response = tryGetResponse(conversation, request);
 
@@ -114,4 +88,20 @@ public class StudentTest extends AbstractHttpTest {
 
 	}
 
+	
+	public void testDeleteSuccess() throws Exception {
+		WebConversation conversation = new WebConversation();
+		// GetMethodWebRequest
+
+
+		PostMethodWebRequest request = new PostMethodWebRequest(
+				TestConstants.host + "rest/cookbook/delete.json"+user.addParameter_JSESSIONID()
+				+"&uuid=c9de1bdc-6f33-4aa5-8ae7-8e2220fa008f");
+
+		WebResponse response = tryGetResponse(conversation, request);
+
+		HttpUtils.println(conversation, request, response);
+		assertTrue("成功", response.getText().indexOf("success") != -1);
+
+	}
 }
