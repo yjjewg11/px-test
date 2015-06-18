@@ -42,9 +42,9 @@ public class RoleTest extends AbstractHttpTest {
 		
 		//o.testAddSuccess();
 		
-		o.testUpdateRightSuccess();
+		//o.testUpdateRightSuccess();
 		
-		//o.testAddSuccess();
+		o.testAddSuccess();
 		//o.testUpdateRightSuccess();
 		//o.testGetRightSuccess();
 	}
@@ -66,10 +66,11 @@ public class RoleTest extends AbstractHttpTest {
 		WebConversation conversation = new WebConversation();
 		// GetMethodWebRequest
 
-		String name="园长1";
+		String name="园长11";
 			String description="新建角色";
 		PostMethodWebRequest request = new PostMethodWebRequest(
-				TestConstants.host + "rest/role/save.json"+user.addParameter_JSESSIONID()+"&name="+name+"&description="+description);
+				TestConstants.host + "rest/role/save.json"+user.addParameter_JSESSIONID()+"&name="+name+"&description="+description
+				+"&type=1");
 
 		WebResponse response = tryGetResponse(conversation, request);
 

@@ -7,6 +7,7 @@ import junit.framework.TestSuite;
 import net.sf.json.JSONObject;
 
 import com.company.news.SystemConstants;
+import com.company.news.jsonform.CookbookPlanJsonform;
 import com.company.news.jsonform.GroupRegJsonform;
 import com.company.news.jsonform.UserRegJsonform;
 import com.company.news.rest.RestConstants;
@@ -22,7 +23,7 @@ import com.meterware.httpunit.WebConversation;
 import com.meterware.httpunit.WebRequest;
 import com.meterware.httpunit.WebResponse;
 
-public class CookbookTest extends AbstractHttpTest {
+public class CookbookPlanTest extends AbstractHttpTest {
 	  public UserinfoTest user= new UserinfoTest();
 	/**
 	 * run this testcase as a suite from the command line
@@ -34,11 +35,11 @@ public class CookbookTest extends AbstractHttpTest {
 	public static void main(String args[]) throws Exception {
 		// junit.textui.TestRunner.run( suite() );
 		
-		CookbookTest o = new CookbookTest();
+		CookbookPlanTest o = new CookbookPlanTest();
 		// o.testRegSuccess();
 		//o.testListSuccess();
 //o.testGroupListSuccess();
-		o.testAddSuccess();
+		o.testGetSuccess();
 	}
 
 	/**
@@ -47,7 +48,7 @@ public class CookbookTest extends AbstractHttpTest {
 	 * @return
 	 */
 	public static Test suite() {
-		return new TestSuite(CookbookTest.class);
+		return new TestSuite(CookbookPlanTest.class);
 	}
 
 
@@ -58,7 +59,8 @@ public class CookbookTest extends AbstractHttpTest {
 		WebConversation conversation = new WebConversation();
 		// GetMethodWebRequest
 		WebRequest request = new GetMethodWebRequest(TestConstants.host
-				+ "rest/cookbook/list.json"+user.addParameter_JSESSIONID()+"&type=1&groupuuid=91ba8426-641f-471d-a252-07132e11934e");
+				+ "rest/cookbookplan/list.json"+user.addParameter_JSESSIONID()
+				+"&begDateStr=2015-06-10&endDateStr=2015-06-20&groupuuid=9bf8604b-80b3-49bb-847c-b87f56d4bcb8");
 
 		WebResponse response = tryGetResponse(conversation, request);
 
@@ -76,10 +78,19 @@ public class CookbookTest extends AbstractHttpTest {
 		WebConversation conversation = new WebConversation();
 		// GetMethodWebRequest
 
+		CookbookPlanJsonform form = new CookbookPlanJsonform();
 
+		form.setGroupuuid("9bf8604b-80b3-49bb-847c-b87f56d4bcb8");
+		form.setPlandateStr("2015-06-13");
+		form.setTime_1("7e74cf4a-cb9b-4007-ad44-d27a4136b66b");
+
+		String json = JSONUtils.getJsonString(form);
+		HttpUtils.printjson(json);
+		ByteArrayInputStream input = new ByteArrayInputStream(
+				json.getBytes(SystemConstants.Charset));
 		PostMethodWebRequest request = new PostMethodWebRequest(
-				TestConstants.host + "rest/cookbook/save.json"+user.addParameter_JSESSIONID()
-				+"&type=1&img=dfajlfjdlasfjldsajf&name=xigua");
+				TestConstants.host + "rest/cookbookplan/save.json"+user.addParameter_JSESSIONID(), input,
+				TestConstants.contentType);
 
 		WebResponse response = tryGetResponse(conversation, request);
 
@@ -95,8 +106,21 @@ public class CookbookTest extends AbstractHttpTest {
 
 
 		PostMethodWebRequest request = new PostMethodWebRequest(
-				TestConstants.host + "rest/cookbook/delete.json"+user.addParameter_JSESSIONID()
-				+"&uuid=c9de1bdc-6f33-4aa5-8ae7-8e2220fa008f");
+				TestConstants.host + "rest/cookbookplan/delete.json"+user.addParameter_JSESSIONID()
+				+"&uuid=aeb7cedc-eed4-4c38-bf88-a723fd4f7a90");
+
+		WebResponse response = tryGetResponse(conversation, request);
+
+		HttpUtils.println(conversation, request, response);
+		assertTrue("成功", response.getText().indexOf("success") != -1);
+
+	}
+	
+	public void testGetSuccess() throws Exception {
+		WebConversation conversation = new WebConversation();
+		// GetMethodWebRequest
+		WebRequest request = new GetMethodWebRequest(TestConstants.host
+				+ "rest/cookbookplan/0c74bc8e-fe71-42cc-b504-1a5a8cb27245.json"+user.addParameter_JSESSIONID());
 
 		WebResponse response = tryGetResponse(conversation, request);
 

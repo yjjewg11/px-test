@@ -38,11 +38,11 @@ public class RightTest extends AbstractHttpTest {
 		// o.testRegSuccess();
 		//o.testUpdateSuccess();
         
-		o.testListSuccess();
+		//o.testListSuccess();
 		
-		//o.testAddSuccess();
+		o.testAddSuccess();
 		
-		o.testUpdateSuccess();
+		//o.testUpdateSuccess();
 		
 		//o.testDeleteSuccess();
 	}
@@ -67,7 +67,8 @@ public class RightTest extends AbstractHttpTest {
 		String name="CDNEW3";
 			String description="新建权限";
 		PostMethodWebRequest request = new PostMethodWebRequest(
-				TestConstants.host + "rest/right/save.json"+user.addParameter_JSESSIONID()+"&name="+name+"&description="+description);
+				TestConstants.host + "rest/right/save.json"+user.addParameter_JSESSIONID()+"&name="+name+"&description="+description
+				+"&type=1");
 
 		WebResponse response = tryGetResponse(conversation, request);
 
