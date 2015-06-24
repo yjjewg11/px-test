@@ -7,7 +7,9 @@ import junit.framework.TestSuite;
 import net.sf.json.JSONObject;
 
 import com.company.news.SystemConstants;
+import com.company.news.jsonform.CookbookJsonform;
 import com.company.news.jsonform.GroupRegJsonform;
+import com.company.news.jsonform.RightJsonform;
 import com.company.news.jsonform.UserRegJsonform;
 import com.company.news.rest.RestConstants;
 import com.company.news.rest.util.MD5Until;
@@ -63,17 +65,24 @@ public class RightTest extends AbstractHttpTest {
 	public void testAddSuccess() throws Exception {
 		WebConversation conversation = new WebConversation();
 		// GetMethodWebRequest
+		RightJsonform form = new RightJsonform();
+		form.setName("jbb");
+		form.setName("dddddddddddd");
+		form.setDescription("权限");
+		form.setType(1);
 
-		String name="CDNEW3";
-			String description="新建权限";
+		String json = JSONUtils.getJsonString(form);
+		HttpUtils.printjson(json);
+		ByteArrayInputStream input = new ByteArrayInputStream(
+				json.getBytes(SystemConstants.Charset));
 		PostMethodWebRequest request = new PostMethodWebRequest(
-				TestConstants.host + "rest/right/save.json"+user.addParameter_JSESSIONID()+"&name="+name+"&description="+description
-				+"&type=1");
+				TestConstants.host + "rest/right/save.json"+user.addParameter_JSESSIONID(), input,
+				TestConstants.contentType);
 
 		WebResponse response = tryGetResponse(conversation, request);
 
 		HttpUtils.println(conversation, request, response);
-		assertTrue("增加权限-成功", response.getText().indexOf("success") != -1);
+		assertTrue("成功", response.getText().indexOf("success") != -1);
 
 	}
 

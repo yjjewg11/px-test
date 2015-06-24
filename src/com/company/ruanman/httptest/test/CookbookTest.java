@@ -7,6 +7,7 @@ import junit.framework.TestSuite;
 import net.sf.json.JSONObject;
 
 import com.company.news.SystemConstants;
+import com.company.news.jsonform.CookbookJsonform;
 import com.company.news.jsonform.GroupRegJsonform;
 import com.company.news.jsonform.UserRegJsonform;
 import com.company.news.rest.RestConstants;
@@ -75,16 +76,23 @@ public class CookbookTest extends AbstractHttpTest {
 	public void testAddSuccess() throws Exception {
 		WebConversation conversation = new WebConversation();
 		// GetMethodWebRequest
+		CookbookJsonform form = new CookbookJsonform();
+		form.setName("jbb");
+		form.setImg("309556cb-3043-4e8c-ac90-29c3234ba545");
+		form.setType(1);
 
-
+		String json = JSONUtils.getJsonString(form);
+		HttpUtils.printjson(json);
+		ByteArrayInputStream input = new ByteArrayInputStream(
+				json.getBytes(SystemConstants.Charset));
 		PostMethodWebRequest request = new PostMethodWebRequest(
-				TestConstants.host + "rest/cookbook/save.json"+user.addParameter_JSESSIONID()
-				+"&type=1&img=dfajlfjdlasfjldsajf&name=xigua");
+				TestConstants.host + "rest/cookbook/save.json"+user.addParameter_JSESSIONID(), input,
+				TestConstants.contentType);
 
 		WebResponse response = tryGetResponse(conversation, request);
 
 		HttpUtils.println(conversation, request, response);
-		assertTrue("增加-成功", response.getText().indexOf("success") != -1);
+		assertTrue("成功", response.getText().indexOf("success") != -1);
 
 	}
 

@@ -37,9 +37,9 @@ public class CookbookPlanTest extends AbstractHttpTest {
 		
 		CookbookPlanTest o = new CookbookPlanTest();
 		// o.testRegSuccess();
-		//o.testListSuccess();
+		o.testListSuccess();
 //o.testGroupListSuccess();
-		o.testGetSuccess();
+		//o.testGetSuccess();
 	}
 
 	/**

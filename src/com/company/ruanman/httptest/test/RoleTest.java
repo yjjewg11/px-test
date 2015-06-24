@@ -8,6 +8,8 @@ import net.sf.json.JSONObject;
 
 import com.company.news.SystemConstants;
 import com.company.news.jsonform.GroupRegJsonform;
+import com.company.news.jsonform.RightJsonform;
+import com.company.news.jsonform.RoleJsonform;
 import com.company.news.jsonform.UserRegJsonform;
 import com.company.news.rest.RestConstants;
 import com.company.news.rest.util.MD5Until;
@@ -65,17 +67,24 @@ public class RoleTest extends AbstractHttpTest {
 	public void testAddSuccess() throws Exception {
 		WebConversation conversation = new WebConversation();
 		// GetMethodWebRequest
+		RoleJsonform form = new RoleJsonform();
+		form.setName("jbb");
+		form.setName("dddddddddddd");
+		form.setDescription("权限");
+		form.setType(1);
 
-		String name="园长11";
-			String description="新建角色";
+		String json = JSONUtils.getJsonString(form);
+		HttpUtils.printjson(json);
+		ByteArrayInputStream input = new ByteArrayInputStream(
+				json.getBytes(SystemConstants.Charset));
 		PostMethodWebRequest request = new PostMethodWebRequest(
-				TestConstants.host + "rest/role/save.json"+user.addParameter_JSESSIONID()+"&name="+name+"&description="+description
-				+"&type=1");
+				TestConstants.host + "rest/role/save.json"+user.addParameter_JSESSIONID(), input,
+				TestConstants.contentType);
 
 		WebResponse response = tryGetResponse(conversation, request);
 
 		HttpUtils.println(conversation, request, response);
-		assertTrue("增加-成功", response.getText().indexOf("success") != -1);
+		assertTrue("成功", response.getText().indexOf("success") != -1);
 
 	}
 

@@ -9,6 +9,8 @@ import net.sf.json.JSONObject;
 import com.company.news.SystemConstants;
 import com.company.news.jsonform.CookbookPlanJsonform;
 import com.company.news.jsonform.GroupRegJsonform;
+import com.company.news.jsonform.StudentJsonform;
+import com.company.news.jsonform.TeachingPlanJsonform;
 import com.company.news.jsonform.UserRegJsonform;
 import com.company.news.rest.RestConstants;
 import com.company.news.rest.util.MD5Until;
@@ -37,9 +39,9 @@ public class TeachingPlanTest extends AbstractHttpTest {
 		
 		TeachingPlanTest o = new TeachingPlanTest();
 		// o.testRegSuccess();
-	o.testGetSuccess();
+	//o.testGetSuccess();
 //o.testGroupListSuccess();
-		//o.testAddSuccess();
+		o.testAddSuccess();
 	}
 
 	/**
@@ -77,11 +79,23 @@ public class TeachingPlanTest extends AbstractHttpTest {
 	public void testAddSuccess() throws Exception {
 		WebConversation conversation = new WebConversation();
 		// GetMethodWebRequest
+		TeachingPlanJsonform t = new TeachingPlanJsonform();
 
+		t.setAfternoon("aaaa");
+		t.setClassuuid("51a05579-cf42-42aa-aafc-4ef0a520e1e8");
+		t.setMorning("cccc");
+		t.setPlandateStr("2015-06-18");
+		
+
+		String json = JSONUtils.getJsonString(t);
+		HttpUtils.printjson(json);
+		ByteArrayInputStream input = new ByteArrayInputStream(
+				json.getBytes(SystemConstants.Charset));
 		PostMethodWebRequest request = new PostMethodWebRequest(
-				TestConstants.host + "rest/teachingplan/save.json"+user.addParameter_JSESSIONID()
-				+"&morning=m1&afternoon=a1&plandateStr=2015-06-15&classuuid=51a05579-cf42-42aa-aafc-4ef0a520e1e8");
+				TestConstants.host + "rest/teachingplan/save.json"+user.addParameter_JSESSIONID(), input,
+				TestConstants.contentType);
 
+		
 		WebResponse response = tryGetResponse(conversation, request);
 
 		HttpUtils.println(conversation, request, response);
