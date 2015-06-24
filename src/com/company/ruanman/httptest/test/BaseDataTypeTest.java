@@ -7,6 +7,8 @@ import junit.framework.TestSuite;
 import net.sf.json.JSONObject;
 
 import com.company.news.SystemConstants;
+import com.company.news.jsonform.BaseDataTypeJsonform;
+import com.company.news.jsonform.CookbookJsonform;
 import com.company.news.jsonform.GroupRegJsonform;
 import com.company.news.jsonform.UserRegJsonform;
 import com.company.news.rest.RestConstants;
@@ -22,7 +24,7 @@ import com.meterware.httpunit.WebConversation;
 import com.meterware.httpunit.WebRequest;
 import com.meterware.httpunit.WebResponse;
 
-public class BaseDateListTest extends AbstractHttpTest {
+public class BaseDataTypeTest extends AbstractHttpTest {
 	  public UserinfoTest user= new UserinfoTest();
 	/**
 	 * run this testcase as a suite from the command line
@@ -34,7 +36,7 @@ public class BaseDateListTest extends AbstractHttpTest {
 	public static void main(String args[]) throws Exception {
 		// junit.textui.TestRunner.run( suite() );
 		
-		BaseDateListTest o = new BaseDateListTest();
+		BaseDataTypeTest o = new BaseDataTypeTest();
 		// o.testRegSuccess();
 		//o.testUpdateSuccess();
         
@@ -42,7 +44,7 @@ public class BaseDateListTest extends AbstractHttpTest {
 		
 		//o.testAddSuccess();
 		
-		o.testUpdateSuccess();
+		o.testAddSuccess();
 		
 		//o.testDeleteSuccess();
 	}
@@ -53,7 +55,7 @@ public class BaseDateListTest extends AbstractHttpTest {
 	 * @return
 	 */
 	public static Test suite() {
-		return new TestSuite(BaseDateListTest.class);
+		return new TestSuite(BaseDataTypeTest.class);
 	}
 
 	/**
@@ -63,20 +65,22 @@ public class BaseDateListTest extends AbstractHttpTest {
 	public void testAddSuccess() throws Exception {
 		WebConversation conversation = new WebConversation();
 		// GetMethodWebRequest
+		BaseDataTypeJsonform form = new BaseDataTypeJsonform();
+		form.setName("jbb");
+		form.setDescription("123456");
 
-		int key=1;
-		String value="CDNEW5";
-			String description="222222222";
-			String typeuuid="0f94ebf7-318f-4f0c-af83-a65a2f23125c";
-			int enable=1;
+		String json = JSONUtils.getJsonString(form);
+		HttpUtils.printjson(json);
+		ByteArrayInputStream input = new ByteArrayInputStream(
+				json.getBytes(SystemConstants.Charset));
 		PostMethodWebRequest request = new PostMethodWebRequest(
-				TestConstants.host + "rest/basedatalist/save.json"+user.addParameter_JSESSIONID()+
-				"&datavalue="+value+"&description="+description+"&datakey="+key+"&typeuuid="+typeuuid+"&enable="+enable);
+				TestConstants.host + "rest/basedatatype/save.json"+user.addParameter_JSESSIONID(), input,
+				TestConstants.contentType);
 
 		WebResponse response = tryGetResponse(conversation, request);
 
 		HttpUtils.println(conversation, request, response);
-		assertTrue("增加-成功", response.getText().indexOf("success") != -1);
+		assertTrue("成功", response.getText().indexOf("success") != -1);
 
 	}
 
@@ -84,8 +88,7 @@ public class BaseDateListTest extends AbstractHttpTest {
 		WebConversation conversation = new WebConversation();
 		// GetMethodWebRequest
 		WebRequest request = new GetMethodWebRequest(TestConstants.host
-				+ "rest/basedatalist/getBaseDataListByTypeuuid.json"
-				+user.addParameter_JSESSIONID()+"&typeuuid=0f94ebf7-318f-4f0c-af83-a65a2f23125c");
+				+ "rest/basedatatype/list.json"+user.addParameter_JSESSIONID());
 
 		WebResponse response = tryGetResponse(conversation, request);
 
@@ -103,16 +106,11 @@ public class BaseDateListTest extends AbstractHttpTest {
 		WebConversation conversation = new WebConversation();
 		// GetMethodWebRequest
 
-		int key=5;
-		String value="one banji";
-			String description="yige";
-			String typeuuid="0f94ebf7-318f-4f0c-af83-a65a2f23125c";
-			int enable=0;
-			String uuid="d53f2136-0b54-4478-bbd7-f762966a6dd9";
+		String name="CDNEW55";
+			String description="222222";
 		PostMethodWebRequest request = new PostMethodWebRequest(
-				TestConstants.host + "rest/basedatalist/save.json"+user.addParameter_JSESSIONID()+
-				"&datavalue="+value+"&description="+description+"&datakey="+key+"&typeuuid="+typeuuid+"&enable="+enable
-				+"&uuid="+uuid);
+				TestConstants.host + "rest/basedatatype/save.json"+user.addParameter_JSESSIONID()+
+				"&uuid=be1e6358-6ef1-4214-a216-76a71edc4202&name="+name+"&description="+description);
 
 		WebResponse response = tryGetResponse(conversation, request);
 
@@ -130,8 +128,8 @@ public class BaseDateListTest extends AbstractHttpTest {
 		// GetMethodWebRequest
 
 		PostMethodWebRequest request = new PostMethodWebRequest(
-				TestConstants.host + "rest/basedatalist/delete.json"+user.addParameter_JSESSIONID()+
-				"&uuid=6730242a-a5a3-4c28-929b-8dbe172a3ff9");
+				TestConstants.host + "rest/basedatatype/delete.json"+user.addParameter_JSESSIONID()+
+				"&uuid=0c9d1973-e6df-445d-a25d-75075cb49758");
 
 		WebResponse response = tryGetResponse(conversation, request);
 
