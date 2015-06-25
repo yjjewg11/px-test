@@ -7,6 +7,8 @@ import junit.framework.TestSuite;
 import net.sf.json.JSONObject;
 
 import com.company.news.SystemConstants;
+import com.company.news.jsonform.ClassNewsJsonform;
+import com.company.news.jsonform.ClassRegJsonform;
 import com.company.news.jsonform.GroupRegJsonform;
 import com.company.news.jsonform.UserRegJsonform;
 import com.company.news.rest.RestConstants;
@@ -22,7 +24,7 @@ import com.meterware.httpunit.WebConversation;
 import com.meterware.httpunit.WebRequest;
 import com.meterware.httpunit.WebResponse;
 
-public class GroupTest extends AbstractHttpTest {
+public class ClassNewsTest extends AbstractHttpTest {
 	  public UserinfoTest user= new UserinfoTest();
 	/**
 	 * run this testcase as a suite from the command line
@@ -34,11 +36,11 @@ public class GroupTest extends AbstractHttpTest {
 	public static void main(String args[]) throws Exception {
 		// junit.textui.TestRunner.run( suite() );
 		
-		GroupTest o = new GroupTest();
-		// o.testRegSuccess();
-		//o.testMyListSuccess();
+		ClassNewsTest o = new ClassNewsTest();
+		 //o.testDeleteSuccess();
+		o.testGetSuccess();
 //o.testGroupListSuccess();
-		o.testAddSuccess();
+		//o.testAddSuccess();
 	}
 
 	/**
@@ -47,75 +49,9 @@ public class GroupTest extends AbstractHttpTest {
 	 * @return
 	 */
 	public static Test suite() {
-		return new TestSuite(GroupTest.class);
+		return new TestSuite(ClassNewsTest.class);
 	}
 
-	/**
-	 * Verifies that submitting the login form without entering a name results
-	 * in a page containing the text "Login failed"
-	 **/
-	public void testRegSuccess() throws Exception {
-		WebConversation conversation = new WebConversation();
-		// GetMethodWebRequest
-
-		GroupRegJsonform form = new GroupRegJsonform();
-		form.setName("jbb");
-		form.setGroup_uuid("testuuid");
-		form.setTel("13980223889");
-		String password = "123456";
-		form.setPassword(MD5Until.getMD5String(password));
-
-		form.setAddress("成都市青羊区");
-		form.setBrand_name("金苹果");
-		form.setCompany_name("金苹果航空港幼儿园-6");
-		form.setLink_tel("028-85467899");
-		form.setMap_point("116.387884,39.888809");
-		form.setType(1);
-		form.setDescription("中文信心额");
-
-		String json = JSONUtils.getJsonString(form);
-		HttpUtils.printjson(json);
-		ByteArrayInputStream input = new ByteArrayInputStream(
-				json.getBytes(SystemConstants.Charset));
-		PostMethodWebRequest request = new PostMethodWebRequest(
-				TestConstants.host + "rest/group/reg.json", input,
-				TestConstants.contentType);
-
-		WebResponse response = tryGetResponse(conversation, request);
-
-		HttpUtils.println(conversation, request, response);
-		assertTrue("机构注册-成功", response.getText().indexOf("success") != -1);
-
-	}
-
-	public void testGroupListSuccess() throws Exception {
-		WebConversation conversation = new WebConversation();
-		// GetMethodWebRequest
-		WebRequest request = new GetMethodWebRequest(TestConstants.host
-				+ "rest/group/list.json");
-
-		WebResponse response = tryGetResponse(conversation, request);
-
-		HttpUtils.println(conversation, request, response);
-		assertTrue("机构列表-成功", response.getText().indexOf("success") != -1);
-
-	}
-	
-	
-	public void testMyListSuccess() throws Exception {
-		WebConversation conversation = new WebConversation();
-		// GetMethodWebRequest
-		WebRequest request = new GetMethodWebRequest(TestConstants.host
-				+ "rest/group/myList.json"+user.addParameter_JSESSIONID());
-
-		WebResponse response = tryGetResponse(conversation, request);
-
-		HttpUtils.println(conversation, request, response);
-		assertTrue("机构列表-成功", response.getText().indexOf("success") != -1);
-
-	}
-	
-	
 	/**
 	 * Verifies that submitting the login form without entering a name results
 	 * in a page containing the text "Login failed"
@@ -124,30 +60,107 @@ public class GroupTest extends AbstractHttpTest {
 		WebConversation conversation = new WebConversation();
 		// GetMethodWebRequest
 
-		GroupRegJsonform form = new GroupRegJsonform();
+		ClassNewsJsonform form = new ClassNewsJsonform();
+		form.setClassuuid("a04eff52-b4ce-4d55-af23-2d830a3e11b6");
+		form.setContent("第一条消息额");
+		form.setTitle("fordst");
 
-		form.setAddress("成都市青羊区");
-		form.setBrand_name("金苹果");
-		form.setCompany_name("金苹果航空港幼儿园-d");
-		form.setLink_tel("028-85467899");
-		form.setMap_point("116.387884,39.888809");
-		form.setType(1);
-		//form.setUuid("91ba8426-641f-471d-a252-07132e11934e");
-		form.setDescription("中心将萨达速度");
+
 
 		String json = JSONUtils.getJsonString(form);
 		HttpUtils.printjson(json);
 		ByteArrayInputStream input = new ByteArrayInputStream(
 				json.getBytes(SystemConstants.Charset));
 		PostMethodWebRequest request = new PostMethodWebRequest(
-				TestConstants.host + "rest/group/save.json"+user.addParameter_JSESSIONID(), input,
+				TestConstants.host + "rest/classnews/save.json"+user.addParameter_JSESSIONID(), input,
 				TestConstants.contentType);
 
 		WebResponse response = tryGetResponse(conversation, request);
 
 		HttpUtils.println(conversation, request, response);
-		assertTrue("机构增加-成功", response.getText().indexOf("success") != -1);
+		assertTrue("成功", response.getText().indexOf("success") != -1);
 
 	}
+	
+	
+	/**
+	 * Verifies that submitting the login form without entering a name results
+	 * in a page containing the text "Login failed"
+	 **/
+	public void testUpdateSuccess() throws Exception {
+		WebConversation conversation = new WebConversation();
+		// GetMethodWebRequest
+
+		ClassNewsJsonform form = new ClassNewsJsonform();
+		form.setClassuuid("a04eff52-b4ce-4d55-afsadfadsf23-2d830a3e11b6");
+		form.setContent("第一条消息额222");
+		form.setTitle("fordst333");
+		form.setUuid("d7a0140f-2547-45f1-97b0-1ea7eb7a9045");
+
+
+
+		String json = JSONUtils.getJsonString(form);
+		HttpUtils.printjson(json);
+		ByteArrayInputStream input = new ByteArrayInputStream(
+				json.getBytes(SystemConstants.Charset));
+		PostMethodWebRequest request = new PostMethodWebRequest(
+				TestConstants.host + "rest/classnews/save.json"+user.addParameter_JSESSIONID(), input,
+				TestConstants.contentType);
+
+		WebResponse response = tryGetResponse(conversation, request);
+
+		HttpUtils.println(conversation, request, response);
+		assertTrue("成功", response.getText().indexOf("success") != -1);
+	}
+
+	public void testListSuccess() throws Exception {
+		WebConversation conversation = new WebConversation();
+		// GetMethodWebRequest
+		WebRequest request = new GetMethodWebRequest(TestConstants.host
+				+ "rest/classnews/getClassNewsByClassuuid.json"+user.addParameter_JSESSIONID()
+				+"&pageNo=1&pageSize=10");
+
+		WebResponse response = tryGetResponse(conversation, request);
+
+		HttpUtils.println(conversation, request, response);
+		assertTrue("列表-成功", response.getText().indexOf("success") != -1);
+
+	}
+	
+	
+	public void testGetSuccess() throws Exception {
+		WebConversation conversation = new WebConversation();
+		// GetMethodWebRequest
+		WebRequest request = new GetMethodWebRequest(TestConstants.host
+				+ "rest/classnews/8076abe8-c5b7-430d-ab6e-dbe441dbf64e.json"+user.addParameter_JSESSIONID());
+
+		WebResponse response = tryGetResponse(conversation, request);
+
+		HttpUtils.println(conversation, request, response);
+		assertTrue("成功", response.getText().indexOf("success") != -1);
+
+	}
+	
+	
+	
+	/**
+	 * Verifies that submitting the login form without entering a name results
+	 * in a page containing the text "Login failed"
+	 **/
+	public void testDeleteSuccess() throws Exception {
+		WebConversation conversation = new WebConversation();
+		// GetMethodWebRequest
+
+		PostMethodWebRequest request = new PostMethodWebRequest(
+				TestConstants.host + "rest/classnews/delete.json"+user.addParameter_JSESSIONID()+
+				"&uuid=d7a0140f-2547-45f1-97b0-1ea7eb7a9045");
+
+		WebResponse response = tryGetResponse(conversation, request);
+
+		HttpUtils.println(conversation, request, response);
+		assertTrue("删除-成功", response.getText().indexOf("success") != -1);
+
+	}
+	
 
 }
