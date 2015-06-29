@@ -39,7 +39,7 @@ public class ClassTest extends AbstractHttpTest {
 		// o.testDeleteSuccess();
 		//o.testListSuccess();
 //o.testGroupListSuccess();
-		o.testGetSuccess();
+		o.testAddSuccess();
 	}
 
 	/**

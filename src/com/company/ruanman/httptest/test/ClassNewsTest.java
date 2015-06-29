@@ -7,6 +7,7 @@ import junit.framework.TestSuite;
 import net.sf.json.JSONObject;
 
 import com.company.news.SystemConstants;
+import com.company.news.jsonform.ClassNewsDianzanJsonform;
 import com.company.news.jsonform.ClassNewsJsonform;
 import com.company.news.jsonform.ClassRegJsonform;
 import com.company.news.jsonform.GroupRegJsonform;
@@ -38,7 +39,7 @@ public class ClassNewsTest extends AbstractHttpTest {
 		
 		ClassNewsTest o = new ClassNewsTest();
 		 //o.testDeleteSuccess();
-		o.testGetSuccess();
+		o.testCancelDianzanSuccess();
 //o.testGroupListSuccess();
 		//o.testAddSuccess();
 	}
@@ -163,4 +164,70 @@ public class ClassNewsTest extends AbstractHttpTest {
 	}
 	
 
+	public void testDianzanSuccess() throws Exception {
+		WebConversation conversation = new WebConversation();
+		// GetMethodWebRequest
+
+		ClassNewsDianzanJsonform form = new ClassNewsDianzanJsonform();
+		form.setNewsuuid("77e99439-1c65-40d7-a65f-7704fa5adb68");
+
+
+
+		String json = JSONUtils.getJsonString(form);
+		HttpUtils.printjson(json);
+		ByteArrayInputStream input = new ByteArrayInputStream(
+				json.getBytes(SystemConstants.Charset));
+		PostMethodWebRequest request = new PostMethodWebRequest(
+				TestConstants.host + "rest/classnews/dianzan.json"+user.addParameter_JSESSIONID(), input,
+				TestConstants.contentType);
+
+		WebResponse response = tryGetResponse(conversation, request);
+
+		HttpUtils.println(conversation, request, response);
+		assertTrue("成功", response.getText().indexOf("success") != -1);
+
+	}
+	
+	
+	public void testGetDianzanByNewsuuidSuccess() throws Exception {
+		WebConversation conversation = new WebConversation();
+		// GetMethodWebRequest
+		WebRequest request = new GetMethodWebRequest(TestConstants.host
+				+ "rest/classnews/getDianzanByNewsuuid.json"+user.addParameter_JSESSIONID()
+				+"&newsuuid=77e99439-1c65-40d7-a65f-7704fa5adb68");
+
+		WebResponse response = tryGetResponse(conversation, request);
+
+		HttpUtils.println(conversation, request, response);
+		assertTrue("列表-成功", response.getText().indexOf("success") != -1);
+
+	}
+	
+	
+
+	public void testCancelDianzanSuccess() throws Exception {
+		WebConversation conversation = new WebConversation();
+		// GetMethodWebRequest
+
+		ClassNewsDianzanJsonform form = new ClassNewsDianzanJsonform();
+		form.setNewsuuid("77e99439-1c65-40d7-a65f-7704fa5adb68");
+
+
+
+		String json = JSONUtils.getJsonString(form);
+		HttpUtils.printjson(json);
+		ByteArrayInputStream input = new ByteArrayInputStream(
+				json.getBytes(SystemConstants.Charset));
+		PostMethodWebRequest request = new PostMethodWebRequest(
+				TestConstants.host + "rest/classnews/canceldianzan.json"+user.addParameter_JSESSIONID(), input,
+				TestConstants.contentType);
+
+		WebResponse response = tryGetResponse(conversation, request);
+
+		HttpUtils.println(conversation, request, response);
+		assertTrue("成功", response.getText().indexOf("success") != -1);
+
+	}
+	
+	
 }

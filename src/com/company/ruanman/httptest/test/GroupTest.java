@@ -38,7 +38,8 @@ public class GroupTest extends AbstractHttpTest {
 		// o.testRegSuccess();
 		//o.testMyListSuccess();
 //o.testGroupListSuccess();
-		o.testAddSuccess();
+		//o.testAddSuccess();
+		o.testGetSuccess();
 	}
 
 	/**
@@ -147,6 +148,19 @@ public class GroupTest extends AbstractHttpTest {
 
 		HttpUtils.println(conversation, request, response);
 		assertTrue("机构增加-成功", response.getText().indexOf("success") != -1);
+
+	}
+	
+	public void testGetSuccess() throws Exception {
+		WebConversation conversation = new WebConversation();
+		// GetMethodWebRequest
+		WebRequest request = new GetMethodWebRequest(TestConstants.host
+				+ "rest/group/9bf8604b-80b3-49bb-847c-b87f56d4bcb8.json"+user.addParameter_JSESSIONID());
+
+		WebResponse response = tryGetResponse(conversation, request);
+
+		HttpUtils.println(conversation, request, response);
+		assertTrue("成功", response.getText().indexOf("success") != -1);
 
 	}
 
