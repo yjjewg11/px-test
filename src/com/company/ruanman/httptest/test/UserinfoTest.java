@@ -41,10 +41,11 @@ public class UserinfoTest extends AbstractHttpTest {
       //junit.textui.TestRunner.run( suite() );
     UserinfoTest o=new UserinfoTest();
     //o.testRegSuccess();
-    o.testLoginSuccess();
+    //o.testLoginSuccess();
     //o.testLoginFailed();
     //o.testUpdateSuccess();
     //o.testAddSuccess();
+    o.testUpdatePasswordSuccess();
   }
   
   /**
@@ -219,7 +220,7 @@ public class UserinfoTest extends AbstractHttpTest {
 	}
 	
 	
-	public void testUpdateSuccess() throws Exception {
+	public void testUpdateDisableSuccess() throws Exception {
 		WebConversation conversation = new WebConversation();
 		// GetMethodWebRequest
 
@@ -235,4 +236,55 @@ public class UserinfoTest extends AbstractHttpTest {
 		assertTrue("修改-成功", response.getText().indexOf("success") != -1);
 
 	}
+	
+	
+	  /**
+	   * Verifies that submitting the login form without entering a name results in a page
+	   * containing the text "Login failed"
+	   **/
+	  public void testUpdateSuccess() throws Exception {
+	      WebConversation     conversation = new WebConversation();
+	      //GetMethodWebRequest
+	      UserRegJsonform form =new UserRegJsonform();
+	      form.setName("名字错了");
+	      form.setGroup_uuid("testuuid");
+	      form.setTel("13980223880");
+	      form.setSex(1);
+	      form.setOffice("班主任");
+	      form.setEmail("123@qq.com");
+	  
+	      String json=JSONUtils.getJsonString(form);
+	      HttpUtils.printjson(json);
+	      ByteArrayInputStream input=new ByteArrayInputStream(json.getBytes(SystemConstants.Charset));
+	      PostMethodWebRequest  request = new PostMethodWebRequest( TestConstants.host+"rest/userinfo/update.json"+this.addParameter_JSESSIONID(),input,TestConstants.contentType );
+
+	      WebResponse response = tryGetResponse(conversation, request );
+	       
+	      HttpUtils.println(conversation, request, response);
+	      assertTrue( "新增-成功", response.getText().indexOf( "success" ) != -1 );
+	      
+	  }
+	  
+	  
+	  public void testUpdatePasswordSuccess() throws Exception {
+	      WebConversation     conversation = new WebConversation();
+	      //GetMethodWebRequest
+	      UserRegJsonform form =new UserRegJsonform();
+	      String password="123456";
+	      form.setOldpassword(MD5Until.getMD5String(password));
+	      
+	      form.setPassword(MD5Until.getMD5String(password));
+	  
+	      String json=JSONUtils.getJsonString(form);
+	      HttpUtils.printjson(json);
+	      ByteArrayInputStream input=new ByteArrayInputStream(json.getBytes(SystemConstants.Charset));
+	      PostMethodWebRequest  request = new PostMethodWebRequest( TestConstants.host+"rest/userinfo/updatepassword.json"+this.addParameter_JSESSIONID(),input,TestConstants.contentType );
+
+	      WebResponse response = tryGetResponse(conversation, request );
+	       
+	      HttpUtils.println(conversation, request, response);
+	      assertTrue( "成功", response.getText().indexOf( "success" ) != -1 );
+	      
+	  }
+	  
 }
