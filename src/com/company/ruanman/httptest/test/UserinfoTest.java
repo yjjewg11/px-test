@@ -45,7 +45,7 @@ public class UserinfoTest extends AbstractHttpTest {
     //o.testLoginFailed();
     //o.testUpdateSuccess();
     //o.testAddSuccess();
-    o.testUpdatePasswordSuccess();
+    o.testUpdatePasswordBysmsSuccess();
   }
   
   /**
@@ -279,6 +279,31 @@ public class UserinfoTest extends AbstractHttpTest {
 	      HttpUtils.printjson(json);
 	      ByteArrayInputStream input=new ByteArrayInputStream(json.getBytes(SystemConstants.Charset));
 	      PostMethodWebRequest  request = new PostMethodWebRequest( TestConstants.host+"rest/userinfo/updatepassword.json"+this.addParameter_JSESSIONID(),input,TestConstants.contentType );
+
+	      WebResponse response = tryGetResponse(conversation, request );
+	       
+	      HttpUtils.println(conversation, request, response);
+	      assertTrue( "成功", response.getText().indexOf( "success" ) != -1 );
+	      
+	  }
+	  
+	  /**
+	   * 
+	   * @throws Exception
+	   */
+	  public void testUpdatePasswordBysmsSuccess() throws Exception {
+	      WebConversation     conversation = new WebConversation();
+	      //GetMethodWebRequest
+	      UserRegJsonform form =new UserRegJsonform();
+	      String password="123456";
+	      form.setTel("13980223880");
+	      form.setSmscode("zxcv");
+	      form.setPassword(MD5Until.getMD5String(password));
+	  
+	      String json=JSONUtils.getJsonString(form);
+	      HttpUtils.printjson(json);
+	      ByteArrayInputStream input=new ByteArrayInputStream(json.getBytes(SystemConstants.Charset));
+	      PostMethodWebRequest  request = new PostMethodWebRequest( TestConstants.host+"rest/userinfo/updatePasswordBySms.json",input,TestConstants.contentType );
 
 	      WebResponse response = tryGetResponse(conversation, request );
 	       
