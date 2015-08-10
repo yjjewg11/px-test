@@ -41,11 +41,11 @@ public class UserinfoTest extends AbstractHttpTest {
       //junit.textui.TestRunner.run( suite() );
     UserinfoTest o=new UserinfoTest();
     //o.testRegSuccess();
-    //o.testLoginSuccess();
+    o.testLoginSuccess();
     //o.testLoginFailed();
     //o.testUpdateSuccess();
     //o.testAddSuccess();
-    o.testUpdatePasswordBysmsSuccess();
+    //o.testUpdatePasswordBysmsSuccess();
   }
   
   /**

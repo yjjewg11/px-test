@@ -13,6 +13,7 @@ import com.company.common.SerializableUtil;
 import com.company.news.SystemConstants;
 import com.company.news.entity.DoorRecord;
 import com.company.news.jsonform.DoorRecordJsonform;
+import com.company.news.jsonform.DoorUserJsonform;
 import com.company.news.jsonform.GroupRegJsonform;
 import com.company.news.jsonform.UserRegJsonform;
 import com.company.news.rest.RestConstants;
@@ -45,7 +46,7 @@ public class DoorRecordTest extends AbstractHttpTest {
 		//o.testMyListSuccess();
 //o.testGroupListSuccess();
 		//o.testAddSuccess();
-		o.testInertSuccess();
+		o.testAutobindSuccess();
 	}
 
 	/**
@@ -97,6 +98,37 @@ public class DoorRecordTest extends AbstractHttpTest {
 
 	}
 
+	/**
+	 * Verifies that submitting the login form without entering a name results
+	 * in a page containing the text "Login failed"
+	 **/
+	public void testAutobindSuccess() throws Exception {
+		WebConversation conversation = new WebConversation();
+		// GetMethodWebRequest
+
+		DoorUserJsonform form = new DoorUserJsonform();
+		form.setGroupuuid("7ac3897e-b0d8-4a32-ad61-4f4a96496774");
+		form.setPrivate_key("5678");
+		form.setCardid("12345678");
+		form.setUserName("胡晓");
+		form.setIdNo("510322198203290695");
+		
+		
+
+		String json = JSONUtils.getJsonString(form);
+		HttpUtils.printjson(json);
+		ByteArrayInputStream input = new ByteArrayInputStream(
+				json.getBytes(SystemConstants.Charset));
+		PostMethodWebRequest request = new PostMethodWebRequest(
+				TestConstants.host + "rest/doorrecord/autobind.json"+user.addParameter_JSESSIONID(), input,
+				TestConstants.contentType);
+
+		WebResponse response = tryGetResponse(conversation, request);
+
+		HttpUtils.println(conversation, request, response);
+		assertTrue("绑定-成功", response.getText().indexOf("success") != -1);
+
+	}
 
 
 }
