@@ -37,7 +37,12 @@ public class StatisticsTest extends AbstractHttpTest {
 		
 		StatisticsTest o = new StatisticsTest();
 		// o.testRegSuccess();
-		o.testListSuccess();
+		o.testSuccess("uss");
+		o.testSuccess("uls");
+		o.testSuccess("sss");
+		o.testSuccess("css");
+		o.testSuccess("cns");
+		o.testSuccess("cnts");
         //o.testGetSuccess();
 		//o.testAddSuccess();
 	}
@@ -56,12 +61,13 @@ public class StatisticsTest extends AbstractHttpTest {
 
 	
 	
-	public void testListSuccess() throws Exception {
+	
+	public void testSuccess(String path) throws Exception {
 		WebConversation conversation = new WebConversation();
 		// GetMethodWebRequest
 		WebRequest request = new GetMethodWebRequest(TestConstants.host
-				+ "rest/statistics/uss.json"+user.addParameter_JSESSIONID()
-				+"&groupuuid=7ac3897e-b0d8-4a32-ad61-4f4a96496774");
+				+ "rest/statistics/"+path+".json"+user.addParameter_JSESSIONID()
+				+"&groupuuid=ef3fd53f-03f7-42d6-8258-969a4a980f58&begDateStr=2015-07-11&endDateStr=2015-08-11");
 
 		WebResponse response = tryGetResponse(conversation, request);
 

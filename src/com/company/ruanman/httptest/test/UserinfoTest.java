@@ -107,7 +107,7 @@ public class UserinfoTest extends AbstractHttpTest {
   public void testLoginSuccess() throws Exception {
       WebConversation     conversation = new WebConversation();
       //GetMethodWebRequest
-      WebRequest  request = new PostMethodWebRequest( TestConstants.host+"rest/userinfo/login.json?loginname="+"13980223886"+"&password="+MD5Until.getMD5String("123456") );
+      WebRequest  request = new PostMethodWebRequest( TestConstants.host+"rest/userinfo/login.json?loginname="+"13882217972"+"&password="+MD5Until.getMD5String("123456") );
         WebResponse response = tryGetResponse(conversation, request );
 //      WebForm loginForm = response.getForms()[0];
 //      request = loginForm.getRequest();
