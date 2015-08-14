@@ -128,7 +128,7 @@ public class AnnouncementsTest extends AbstractHttpTest {
 		WebConversation conversation = new WebConversation();
 		// GetMethodWebRequest
 		WebRequest request = new GetMethodWebRequest(TestConstants.host
-				+ "rest/announcements/df2edffd-6540-4370-be2c-c1429ed89249.json"+user.addParameter_JSESSIONID());
+				+ "rest/announcements/325afe50-c3b9-4baf-899c-68204c871225.json"+user.addParameter_JSESSIONID());
 
 		WebResponse response = tryGetResponse(conversation, request);
 
