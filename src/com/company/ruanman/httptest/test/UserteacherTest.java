@@ -82,7 +82,7 @@ public class UserteacherTest extends AbstractHttpTest {
 
 		UserTeacherJsonform form = new UserTeacherJsonform();
 
-		form.setBirthdayStr("1982-02-29");
+		form.setBirthday("1982-02-29");
 		form.setRealname("yunabao22");
 		
 
