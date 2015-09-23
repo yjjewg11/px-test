@@ -1,6 +1,8 @@
 package com.company.ruanman.httptest;
 
 
+import com.company.ruanman.httptest.test.AnnouncementsTest;
+import com.company.ruanman.httptest.test.ClassNewsTest;
 import com.company.ruanman.httptest.test.UploadFileTest;
 import com.company.ruanman.httptest.test.UserinfoTest;
 
@@ -14,9 +16,9 @@ public class MainTest {
     {
       UserinfoTest.main(null);
 
-      UploadFileTest.main(null);
-
-
+     // UploadFileTest.main(null);
+      AnnouncementsTest.main(null);
+      ClassNewsTest.main(null);
     }
   }
 }
