@@ -41,11 +41,11 @@ public class UserinfoTest extends AbstractHttpTest {
       //junit.textui.TestRunner.run( suite() );
     UserinfoTest o=new UserinfoTest();
     //o.testRegSuccess();
-    //o.testLoginSuccess();
+    o.testLoginSuccess();
     //o.testLoginFailed();
     //o.testUpdateSuccess();
     //o.testAddSuccess();
-    o.testUpdatePasswordSuccess();
+    //o.testUpdatePasswordBysmsSuccess();
   }
   
   /**
@@ -107,7 +107,7 @@ public class UserinfoTest extends AbstractHttpTest {
   public void testLoginSuccess() throws Exception {
       WebConversation     conversation = new WebConversation();
       //GetMethodWebRequest
-      WebRequest  request = new PostMethodWebRequest( TestConstants.host+"rest/userinfo/login.json?loginname="+"13980223886"+"&password="+MD5Until.getMD5String("123456") );
+      WebRequest  request = new PostMethodWebRequest( TestConstants.host+"rest/userinfo/login.json?loginname="+"13882217972"+"&password="+MD5Until.getMD5String("123456") );
         WebResponse response = tryGetResponse(conversation, request );
 //      WebForm loginForm = response.getForms()[0];
 //      request = loginForm.getRequest();
@@ -279,6 +279,31 @@ public class UserinfoTest extends AbstractHttpTest {
 	      HttpUtils.printjson(json);
 	      ByteArrayInputStream input=new ByteArrayInputStream(json.getBytes(SystemConstants.Charset));
 	      PostMethodWebRequest  request = new PostMethodWebRequest( TestConstants.host+"rest/userinfo/updatepassword.json"+this.addParameter_JSESSIONID(),input,TestConstants.contentType );
+
+	      WebResponse response = tryGetResponse(conversation, request );
+	       
+	      HttpUtils.println(conversation, request, response);
+	      assertTrue( "成功", response.getText().indexOf( "success" ) != -1 );
+	      
+	  }
+	  
+	  /**
+	   * 
+	   * @throws Exception
+	   */
+	  public void testUpdatePasswordBysmsSuccess() throws Exception {
+	      WebConversation     conversation = new WebConversation();
+	      //GetMethodWebRequest
+	      UserRegJsonform form =new UserRegJsonform();
+	      String password="123456";
+	      form.setTel("13980223880");
+	      form.setSmscode("zxcv");
+	      form.setPassword(MD5Until.getMD5String(password));
+	  
+	      String json=JSONUtils.getJsonString(form);
+	      HttpUtils.printjson(json);
+	      ByteArrayInputStream input=new ByteArrayInputStream(json.getBytes(SystemConstants.Charset));
+	      PostMethodWebRequest  request = new PostMethodWebRequest( TestConstants.host+"rest/userinfo/updatePasswordBySms.json",input,TestConstants.contentType );
 
 	      WebResponse response = tryGetResponse(conversation, request );
 	       

@@ -23,7 +23,7 @@ import com.meterware.httpunit.WebConversation;
 import com.meterware.httpunit.WebRequest;
 import com.meterware.httpunit.WebResponse;
 
-public class StudentTest extends AbstractHttpTest {
+public class PxStudentTest extends AbstractHttpTest {
 	  public UserinfoTest user= new UserinfoTest();
 	/**
 	 * run this testcase as a suite from the command line
@@ -35,11 +35,16 @@ public class StudentTest extends AbstractHttpTest {
 	public static void main(String args[]) throws Exception {
 		// junit.textui.TestRunner.run( suite() );
 		
-		StudentTest o = new StudentTest();
+		PxStudentTest o = new PxStudentTest();
 		// o.testRegSuccess();
-		o.testListSuccess();
+		//o.testListSuccess();
         //o.testGetSuccess();
-		//o.testAddSuccess();
+		o.testAddSuccess();
+		
+		o.testListSuccess();
+		//o.testQuerybyRightSuccess();
+		o.testParentContactByMyStudentSuccess();
+		o.testGetSuccess();
 	}
 
 	/**
@@ -48,7 +53,7 @@ public class StudentTest extends AbstractHttpTest {
 	 * @return
 	 */
 	public static Test suite() {
-		return new TestSuite(StudentTest.class);
+		return new TestSuite(PxStudentTest.class);
 	}
 
 
@@ -60,8 +65,22 @@ public class StudentTest extends AbstractHttpTest {
 		WebConversation conversation = new WebConversation();
 		// GetMethodWebRequest
 		WebRequest request = new GetMethodWebRequest(TestConstants.host
-				+ "rest/student/getStudentByClassuuid.json"+user.addParameter_JSESSIONID()
-				+"&classuuid=e5677627-bb1b-4089-b2e7-e9a1d84b18b6");
+				+ "rest/pxstudent/getStudentByClassuuid.json"+user.addParameter_JSESSIONID()
+				+"&classuuid=4e46f8a7-46d3-4a27-9ce9-b6a6be813b89");
+
+		WebResponse response = tryGetResponse(conversation, request);
+
+		HttpUtils.println(conversation, request, response);
+		assertTrue("机构-成功", response.getText().indexOf("success") != -1);
+
+	}
+	
+	public void testQuerybyRightSuccess() throws Exception {
+		WebConversation conversation = new WebConversation();
+		// GetMethodWebRequest
+		WebRequest request = new GetMethodWebRequest(TestConstants.host
+				+ "rest/pxstudent/querybyRight.json"+user.addParameter_JSESSIONID()
+				+"&classuuid=4e46f8a7-46d3-4a27-9ce9-b6a6be813b89");
 
 		WebResponse response = tryGetResponse(conversation, request);
 
@@ -74,7 +93,7 @@ public class StudentTest extends AbstractHttpTest {
 		WebConversation conversation = new WebConversation();
 		// GetMethodWebRequest
 		WebRequest request = new GetMethodWebRequest(TestConstants.host
-				+ "rest/student/6828eb86-c345-4af2-9fa5-02b4b35d29b2.json"+user.addParameter_JSESSIONID());
+				+ "rest/pxstudent/9f4bbe6d-3220-406a-9655-c3e58d6e32ff.json"+user.addParameter_JSESSIONID());
 
 		WebResponse response = tryGetResponse(conversation, request);
 
@@ -83,6 +102,20 @@ public class StudentTest extends AbstractHttpTest {
 
 	}
 	
+	
+	public void testParentContactByMyStudentSuccess() throws Exception {
+		WebConversation conversation = new WebConversation();
+		// GetMethodWebRequest
+		WebRequest request = new GetMethodWebRequest(TestConstants.host
+				+ "rest/pxstudent/ParentContactByMyStudent.json"+user.addParameter_JSESSIONID()
+				+"&class_uuid=4e46f8a7-46d3-4a27-9ce9-b6a6be813b89");
+
+		WebResponse response = tryGetResponse(conversation, request);
+
+		HttpUtils.println(conversation, request, response);
+		assertTrue("成功", response.getText().indexOf("success") != -1);
+
+	}
 	
 	/**
 	 * Verifies that submitting the login form without entering a name results
@@ -94,9 +127,9 @@ public class StudentTest extends AbstractHttpTest {
 
 		StudentJsonform s = new StudentJsonform();
 
-		s.setName("成都市青羊区1");
-		s.setClassuuid("e1591749-3551-410d-91e3-b6f3151fdeae");
-		s.setUuid("29f59756-4c09-4aa6-9ff1-56c17c712adb");
+		s.setName("张晓01");
+		s.setClassuuid("4e46f8a7-46d3-4a27-9ce9-b6a6be813b89");
+		//s.setUuid("9f4bbe6d-3220-406a-9655-c3e58d6e32ff");
 		s.setNickname("小甜甜");
 		s.setAddress("chengdu");
 
@@ -105,7 +138,7 @@ public class StudentTest extends AbstractHttpTest {
 		ByteArrayInputStream input = new ByteArrayInputStream(
 				json.getBytes(SystemConstants.Charset));
 		PostMethodWebRequest request = new PostMethodWebRequest(
-				TestConstants.host + "rest/student/save.json"+user.addParameter_JSESSIONID(), input,
+				TestConstants.host + "rest/pxstudent/save.json"+user.addParameter_JSESSIONID(), input,
 				TestConstants.contentType);
 
 		WebResponse response = tryGetResponse(conversation, request);

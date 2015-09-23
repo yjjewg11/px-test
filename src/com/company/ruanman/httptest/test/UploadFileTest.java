@@ -24,9 +24,9 @@ public class UploadFileTest extends AbstractHttpTest {
 	public static void main(String args[]) throws Exception {
 		// junit.textui.TestRunner.run( new TestSuite( UploadFileTest.class ));
 		UploadFileTest o = new UploadFileTest();
-		o.testupload();
-
-		o.testdownSuccess();
+		//o.testupload();
+o.testDeleteSuccess();
+		//o.testdownSuccess();
 		// new UploadFileTest().testdownMyheadSuccess();
 	}
 
@@ -103,6 +103,22 @@ public class UploadFileTest extends AbstractHttpTest {
 		System.out.println("file down success.path=" + file.getAbsolutePath());
 		HttpUtils.printlnHeader(conversation, request, response);
 		assertTrue("成功", (response.getResponseCode() == 200));
+	}
+	
+	public void testDeleteSuccess() throws Exception {
+		WebConversation conversation = new WebConversation();
+		// GetMethodWebRequest
+
+
+		PostMethodWebRequest request = new PostMethodWebRequest(
+				TestConstants.host + "rest/uploadFile/delete.json"+user.addParameter_JSESSIONID()
+				+"&uuid=5d216fa9-9ce1-40b5-a118-ac8ba74db990");
+
+		WebResponse response = tryGetResponse(conversation, request);
+
+		HttpUtils.println(conversation, request, response);
+		assertTrue("成功", response.getText().indexOf("success") != -1);
+
 	}
 
 }

@@ -1,16 +1,21 @@
 package com.company.ruanman.httptest.test;
 
 import java.io.ByteArrayInputStream;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
 import net.sf.json.JSONObject;
 
+import com.company.common.SerializableUtil;
 import com.company.news.SystemConstants;
-import com.company.news.jsonform.CookbookPlanJsonform;
+import com.company.news.entity.DoorRecord;
+import com.company.news.jsonform.DoorRecordJsonform;
+import com.company.news.jsonform.DoorUserJsonform;
 import com.company.news.jsonform.GroupRegJsonform;
 import com.company.news.jsonform.UserRegJsonform;
-import com.company.news.jsonform.UserTeacherJsonform;
 import com.company.news.rest.RestConstants;
 import com.company.news.rest.util.MD5Until;
 import com.company.news.rest.util.TimeUtils;
@@ -24,7 +29,7 @@ import com.meterware.httpunit.WebConversation;
 import com.meterware.httpunit.WebRequest;
 import com.meterware.httpunit.WebResponse;
 
-public class UserteacherTest extends AbstractHttpTest {
+public class DoorRecordTest extends AbstractHttpTest {
 	  public UserinfoTest user= new UserinfoTest();
 	/**
 	 * run this testcase as a suite from the command line
@@ -36,12 +41,12 @@ public class UserteacherTest extends AbstractHttpTest {
 	public static void main(String args[]) throws Exception {
 		// junit.textui.TestRunner.run( suite() );
 		
-		UserteacherTest o = new UserteacherTest();
+		DoorRecordTest o = new DoorRecordTest();
 		// o.testRegSuccess();
-		//o.testListSuccess();
+		//o.testMyListSuccess();
 //o.testGroupListSuccess();
-		o.testAddSuccess();
-		o.testGetSuccess();
+		//o.testAddSuccess();
+		o.testAutobindSuccess();
 	}
 
 	/**
@@ -50,40 +55,32 @@ public class UserteacherTest extends AbstractHttpTest {
 	 * @return
 	 */
 	public static Test suite() {
-		return new TestSuite(UserteacherTest.class);
+		return new TestSuite(DoorRecordTest.class);
 	}
 
-
-
-
-	
-	public void testListSuccess() throws Exception {
-		WebConversation conversation = new WebConversation();
-		// GetMethodWebRequest
-		WebRequest request = new GetMethodWebRequest(TestConstants.host
-				+ "rest/cookbookplan/list.json"+user.addParameter_JSESSIONID()
-				+"&begDateStr=2015-06-10&endDateStr=2015-06-20&groupuuid=9bf8604b-80b3-49bb-847c-b87f56d4bcb8");
-
-		WebResponse response = tryGetResponse(conversation, request);
-
-		HttpUtils.println(conversation, request, response);
-		assertTrue("列表-成功", response.getText().indexOf("success") != -1);
-
-	}
-	
-	
 	/**
 	 * Verifies that submitting the login form without entering a name results
 	 * in a page containing the text "Login failed"
 	 **/
-	public void testAddSuccess() throws Exception {
+	public void testInertSuccess() throws Exception {
 		WebConversation conversation = new WebConversation();
 		// GetMethodWebRequest
 
-		UserTeacherJsonform form = new UserTeacherJsonform();
+		DoorRecordJsonform form = new DoorRecordJsonform();
+		form.setGroupuuid("004739cb-856b-4fd0-bfa2-8f352561ebf7");
+		form.setPrivate_key("5678");
+		
+		List<DoorRecord> list=new ArrayList<DoorRecord>();
+		
+		DoorRecord d=new DoorRecord();
+		list.add(d);
+		
+		d.setCardid("123123");
+		d.setDoorid("");
+		d.setDt(new Date());
 
-		form.setBirthday("1982-02-29");
-		form.setRealname("yunabao22");
+		form.setRecordlist(SerializableUtil.ObjectToString(list));
+		
 		
 
 		String json = JSONUtils.getJsonString(form);
@@ -91,28 +88,47 @@ public class UserteacherTest extends AbstractHttpTest {
 		ByteArrayInputStream input = new ByteArrayInputStream(
 				json.getBytes(SystemConstants.Charset));
 		PostMethodWebRequest request = new PostMethodWebRequest(
-				TestConstants.host + "rest/userteacher/save.json"+user.addParameter_JSESSIONID(), input,
+				TestConstants.host + "rest/doorrecord/insert.json"+user.addParameter_JSESSIONID(), input,
 				TestConstants.contentType);
 
 		WebResponse response = tryGetResponse(conversation, request);
 
 		HttpUtils.println(conversation, request, response);
-		assertTrue("增加-成功", response.getText().indexOf("success") != -1);
+		assertTrue("机构注册-成功", response.getText().indexOf("success") != -1);
 
 	}
 
-
-	
-	public void testGetSuccess() throws Exception {
+	/**
+	 * Verifies that submitting the login form without entering a name results
+	 * in a page containing the text "Login failed"
+	 **/
+	public void testAutobindSuccess() throws Exception {
 		WebConversation conversation = new WebConversation();
 		// GetMethodWebRequest
-		WebRequest request = new GetMethodWebRequest(TestConstants.host
-				+ "rest/userteacher/get.json"+user.addParameter_JSESSIONID());
+
+		DoorUserJsonform form = new DoorUserJsonform();
+		form.setGroupuuid("7ac3897e-b0d8-4a32-ad61-4f4a96496774");
+		form.setPrivate_key("5678");
+		form.setCardid("12345678");
+		form.setUserName("胡晓");
+		form.setIdNo("510322198203290695");
+		
+		
+
+		String json = JSONUtils.getJsonString(form);
+		HttpUtils.printjson(json);
+		ByteArrayInputStream input = new ByteArrayInputStream(
+				json.getBytes(SystemConstants.Charset));
+		PostMethodWebRequest request = new PostMethodWebRequest(
+				TestConstants.host + "rest/doorrecord/autobind.json"+user.addParameter_JSESSIONID(), input,
+				TestConstants.contentType);
 
 		WebResponse response = tryGetResponse(conversation, request);
 
 		HttpUtils.println(conversation, request, response);
-		assertTrue("成功", response.getText().indexOf("success") != -1);
+		assertTrue("绑定-成功", response.getText().indexOf("success") != -1);
 
 	}
+
+
 }

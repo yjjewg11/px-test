@@ -4,16 +4,9 @@ import java.io.ByteArrayInputStream;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
-import net.sf.json.JSONObject;
 
 import com.company.news.SystemConstants;
-import com.company.news.jsonform.CookbookPlanJsonform;
-import com.company.news.jsonform.GroupRegJsonform;
-import com.company.news.jsonform.UserRegJsonform;
-import com.company.news.jsonform.UserTeacherJsonform;
-import com.company.news.rest.RestConstants;
-import com.company.news.rest.util.MD5Until;
-import com.company.news.rest.util.TimeUtils;
+import com.company.news.jsonform.PxTeachingPlanJsonform;
 import com.company.ruanman.httptest.AbstractHttpTest;
 import com.company.ruanman.httptest.HttpUtils;
 import com.company.ruanman.httptest.JSONUtils;
@@ -24,7 +17,7 @@ import com.meterware.httpunit.WebConversation;
 import com.meterware.httpunit.WebRequest;
 import com.meterware.httpunit.WebResponse;
 
-public class UserteacherTest extends AbstractHttpTest {
+public class PxTeachingPlanTest extends AbstractHttpTest {
 	  public UserinfoTest user= new UserinfoTest();
 	/**
 	 * run this testcase as a suite from the command line
@@ -36,11 +29,13 @@ public class UserteacherTest extends AbstractHttpTest {
 	public static void main(String args[]) throws Exception {
 		// junit.textui.TestRunner.run( suite() );
 		
-		UserteacherTest o = new UserteacherTest();
+		PxTeachingPlanTest o = new PxTeachingPlanTest();
 		// o.testRegSuccess();
-		//o.testListSuccess();
+	//o.testGetSuccess();
 //o.testGroupListSuccess();
 		o.testAddSuccess();
+		o.testListSuccess();
+		
 		o.testGetSuccess();
 	}
 
@@ -50,7 +45,7 @@ public class UserteacherTest extends AbstractHttpTest {
 	 * @return
 	 */
 	public static Test suite() {
-		return new TestSuite(UserteacherTest.class);
+		return new TestSuite(PxTeachingPlanTest.class);
 	}
 
 
@@ -61,8 +56,8 @@ public class UserteacherTest extends AbstractHttpTest {
 		WebConversation conversation = new WebConversation();
 		// GetMethodWebRequest
 		WebRequest request = new GetMethodWebRequest(TestConstants.host
-				+ "rest/cookbookplan/list.json"+user.addParameter_JSESSIONID()
-				+"&begDateStr=2015-06-10&endDateStr=2015-06-20&groupuuid=9bf8604b-80b3-49bb-847c-b87f56d4bcb8");
+				+ "rest/pxteachingplan/list.json"+user.addParameter_JSESSIONID()
+				+"&begDateStr=2015-06-10&endDateStr=2015-06-20&classuuid=51a05579-cf42-42aa-aafc-4ef0a520e1e8");
 
 		WebResponse response = tryGetResponse(conversation, request);
 
@@ -79,21 +74,27 @@ public class UserteacherTest extends AbstractHttpTest {
 	public void testAddSuccess() throws Exception {
 		WebConversation conversation = new WebConversation();
 		// GetMethodWebRequest
+		PxTeachingPlanJsonform t = new PxTeachingPlanJsonform();
 
-		UserTeacherJsonform form = new UserTeacherJsonform();
+		t.setName("英语课");
+		t.setClassuuid("51a05579-cf42-42aa-aafc-4ef0a520e1e8");
+		t.setReadyfor("带英语书");
+		t.setContext("国际第一的英语认证");
+	    //t.setUuid("d673f6aa-e5dd-449b-a1d9-b53ebcfec8ad");
 
-		form.setBirthday("1982-02-29");
-		form.setRealname("yunabao22");
+		t.setPlandateStr("2015-06-18 13:00:00");
+		t.setDuration("1小时");
 		
 
-		String json = JSONUtils.getJsonString(form);
+		String json = JSONUtils.getJsonString(t);
 		HttpUtils.printjson(json);
 		ByteArrayInputStream input = new ByteArrayInputStream(
 				json.getBytes(SystemConstants.Charset));
 		PostMethodWebRequest request = new PostMethodWebRequest(
-				TestConstants.host + "rest/userteacher/save.json"+user.addParameter_JSESSIONID(), input,
+				TestConstants.host + "rest/pxteachingplan/save.json"+user.addParameter_JSESSIONID(), input,
 				TestConstants.contentType);
 
+		
 		WebResponse response = tryGetResponse(conversation, request);
 
 		HttpUtils.println(conversation, request, response);
@@ -101,13 +102,28 @@ public class UserteacherTest extends AbstractHttpTest {
 
 	}
 
+	
+	public void testDeleteSuccess() throws Exception {
+		WebConversation conversation = new WebConversation();
+		// GetMethodWebRequest
 
+
+		PostMethodWebRequest request = new PostMethodWebRequest(
+				TestConstants.host + "rest/teachingplan/delete.json"+user.addParameter_JSESSIONID()
+				+"&uuid=aeb7cedc-eed4-4c38-bf88-a723fd4f7a90");
+
+		WebResponse response = tryGetResponse(conversation, request);
+
+		HttpUtils.println(conversation, request, response);
+		assertTrue("成功", response.getText().indexOf("success") != -1);
+
+	}
 	
 	public void testGetSuccess() throws Exception {
 		WebConversation conversation = new WebConversation();
 		// GetMethodWebRequest
 		WebRequest request = new GetMethodWebRequest(TestConstants.host
-				+ "rest/userteacher/get.json"+user.addParameter_JSESSIONID());
+				+ "rest/pxteachingplan/2ba67ed4-8180-4318-8a2f-c40efebcf46d.json"+user.addParameter_JSESSIONID());
 
 		WebResponse response = tryGetResponse(conversation, request);
 
