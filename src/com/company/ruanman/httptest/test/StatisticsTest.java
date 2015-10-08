@@ -42,7 +42,7 @@ public class StatisticsTest extends AbstractHttpTest {
 		o.testSuccess("sss");
 		o.testSuccess("css");
 		o.testSuccess("cns");
-		o.testSuccess("cnts");
+		//o.testSuccess("cnts");
         //o.testGetSuccess();
 		//o.testAddSuccess();
 	}
@@ -67,7 +67,7 @@ public class StatisticsTest extends AbstractHttpTest {
 		// GetMethodWebRequest
 		WebRequest request = new GetMethodWebRequest(TestConstants.host
 				+ "rest/statistics/"+path+".json"+user.addParameter_JSESSIONID()
-				+"&groupuuid=ef3fd53f-03f7-42d6-8258-969a4a980f58&begDateStr=2015-07-11&endDateStr=2015-08-11");
+				+"&groupuuid=group_wj2&begDateStr=2015-07-11&endDateStr=2015-08-11");
 
 		WebResponse response = tryGetResponse(conversation, request);
 
