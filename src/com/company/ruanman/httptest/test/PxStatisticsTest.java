@@ -23,7 +23,7 @@ import com.meterware.httpunit.WebConversation;
 import com.meterware.httpunit.WebRequest;
 import com.meterware.httpunit.WebResponse;
 
-public class StatisticsTest extends AbstractHttpTest {
+public class PxStatisticsTest extends AbstractHttpTest {
 	  public UserinfoTest user= new UserinfoTest();
 	/**
 	 * run this testcase as a suite from the command line
@@ -35,14 +35,13 @@ public class StatisticsTest extends AbstractHttpTest {
 	public static void main(String args[]) throws Exception {
 		// junit.textui.TestRunner.run( suite() );
 		
-		StatisticsTest o = new StatisticsTest();
+		PxStatisticsTest o = new PxStatisticsTest();
 		// o.testRegSuccess();
 		o.testSuccess("uss");
 		o.testSuccess("uls");
 		o.testSuccess("sss");
 		o.testSuccess("css");
-		o.testSuccess("cns");
-		o.testSuccess("cnts");
+
         //o.testGetSuccess();
 		//o.testAddSuccess();
 	}
@@ -53,7 +52,7 @@ public class StatisticsTest extends AbstractHttpTest {
 	 * @return
 	 */
 	public static Test suite() {
-		return new TestSuite(StatisticsTest.class);
+		return new TestSuite(PxStatisticsTest.class);
 	}
 
 
@@ -66,8 +65,8 @@ public class StatisticsTest extends AbstractHttpTest {
 		WebConversation conversation = new WebConversation();
 		// GetMethodWebRequest
 		WebRequest request = new GetMethodWebRequest(TestConstants.host
-				+ "rest/statistics/"+path+".json"+user.addParameter_JSESSIONID()
-				+"&groupuuid=group_wj2&begDateStr=2015-07-11&endDateStr=2015-10-11");
+				+ "rest/pxstatistics/"+path+".json"+user.addParameter_JSESSIONID()
+				+"&groupuuid=group_px1&begDateStr=2015-07-11&endDateStr=2015-10-11");
 
 		WebResponse response = tryGetResponse(conversation, request);
 

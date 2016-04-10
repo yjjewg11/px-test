@@ -39,15 +39,8 @@ public class PxClassTest extends AbstractHttpTest {
 		PxClassTest o = new PxClassTest();
 		// o.testDeleteSuccess();
 		//o.testListSuccess();
-o.testlistStat();
-//		o.testAddSuccess();
-//		//o.testUpdateSuccess();
-//		
-//		o.testListSuccess();
-//		o.testqueryClassByUseruuidSuccess();
-//		
-//		o.testGetSuccess();
-//		o.testDeleteSuccess();
+//o.testGroupListSuccess();
+		o.testDisableSuccess();
 	}
 
 	/**
@@ -120,25 +113,13 @@ o.testlistStat();
 		assertTrue("注册-成功", response.getText().indexOf("success") != -1);
 
 	}
+
 	public void testListSuccess() throws Exception {
 		WebConversation conversation = new WebConversation();
 		// GetMethodWebRequest
 		WebRequest request = new GetMethodWebRequest(TestConstants.host
 				+ "rest/pxclass/list.json"+user.addParameter_JSESSIONID()
 		+"&groupuuid=4df131a6-042e-4808-b03c-94d99533ea12");
-
-		WebResponse response = tryGetResponse(conversation, request);
-
-		HttpUtils.println(conversation, request, response);
-		assertTrue("机构列表-成功", response.getText().indexOf("success") != -1);
-
-	}
-	public void testlistStat() throws Exception {
-		WebConversation conversation = new WebConversation();
-		// GetMethodWebRequest
-		WebRequest request = new GetMethodWebRequest(TestConstants.host
-				+ "rest/pxclass/listStat.json"+user.addParameter_JSESSIONID()
-		+"&groupuuid=group_px1");
 
 		WebResponse response = tryGetResponse(conversation, request);
 
@@ -192,6 +173,26 @@ o.testlistStat();
 
 		HttpUtils.println(conversation, request, response);
 		assertTrue("删除-成功", response.getText().indexOf("success") != -1);
+
+	}
+	
+	
+	/**
+	 * Verifies that submitting the login form without entering a name results
+	 * in a page containing the text "Login failed"
+	 **/
+	public void testDisableSuccess() throws Exception {
+		WebConversation conversation = new WebConversation();
+		// GetMethodWebRequest
+
+		PostMethodWebRequest request = new PostMethodWebRequest(
+				TestConstants.host + "rest/pxclass/disable.json"+user.addParameter_JSESSIONID()+
+				"&uuid=539f9c54-18ad-4078-8a41-96502b664257");
+
+		WebResponse response = tryGetResponse(conversation, request);
+
+		HttpUtils.println(conversation, request, response);
+		assertTrue("结业-成功", response.getText().indexOf("success") != -1);
 
 	}
 	

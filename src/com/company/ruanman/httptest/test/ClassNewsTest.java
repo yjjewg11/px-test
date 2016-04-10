@@ -39,9 +39,10 @@ public class ClassNewsTest extends AbstractHttpTest {
 		
 		ClassNewsTest o = new ClassNewsTest();
 		 //o.testDeleteSuccess();
-		o.testCancelDianzanSuccess();
+		//o.testCancelDianzanSuccess();
 //o.testGroupListSuccess();
-		//o.testAddSuccess();
+		o.testAddSuccess();
+		
 	}
 
 	/**
@@ -62,9 +63,10 @@ public class ClassNewsTest extends AbstractHttpTest {
 		// GetMethodWebRequest
 
 		ClassNewsJsonform form = new ClassNewsJsonform();
-		form.setClassuuid("a04eff52-b4ce-4d55-af23-2d830a3e11b6");
+		form.setClassuuid("group_wj2");
 		form.setContent("第一条消息额");
 		form.setTitle("fordst");
+		//form.setCreate_time(TimeUtils.getCurrentTimestamp());
 
 
 
