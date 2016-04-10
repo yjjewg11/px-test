@@ -42,11 +42,11 @@ public class DoorRecordTest extends AbstractHttpTest {
 		// junit.textui.TestRunner.run( suite() );
 		
 		DoorRecordTest o = new DoorRecordTest();
-		// o.testRegSuccess();
-		//o.testMyListSuccess();
-//o.testGroupListSuccess();
-		//o.testAddSuccess();
-		o.testAutobindSuccess();
+		for(int i=0;i<1;i++){
+			
+			o.testInertSuccess();
+		}
+//		o.testAutobindSuccess();
 	}
 
 	/**
@@ -67,16 +67,16 @@ public class DoorRecordTest extends AbstractHttpTest {
 		// GetMethodWebRequest
 
 		DoorRecordJsonform form = new DoorRecordJsonform();
-		form.setGroupuuid("004739cb-856b-4fd0-bfa2-8f352561ebf7");
-		form.setPrivate_key("5678");
-		
+		form.setGroupuuid("group_wj1");
+		form.setPrivate_key("4782");
 		List<DoorRecord> list=new ArrayList<DoorRecord>();
 		
 		DoorRecord d=new DoorRecord();
 		list.add(d);
 		
-		d.setCardid("123123");
-		d.setDoorid("");
+		d.setCardid("1");
+		d.setEquno("001");
+		d.setDoorid("进");
 		d.setDt(new Date());
 
 		form.setRecordlist(SerializableUtil.ObjectToString(list));
@@ -88,7 +88,7 @@ public class DoorRecordTest extends AbstractHttpTest {
 		ByteArrayInputStream input = new ByteArrayInputStream(
 				json.getBytes(SystemConstants.Charset));
 		PostMethodWebRequest request = new PostMethodWebRequest(
-				TestConstants.host + "rest/doorrecord/insert.json"+user.addParameter_JSESSIONID(), input,
+				TestConstants.host + "rest/doorrecord/insert.json", input,
 				TestConstants.contentType);
 
 		WebResponse response = tryGetResponse(conversation, request);
@@ -107,11 +107,12 @@ public class DoorRecordTest extends AbstractHttpTest {
 		// GetMethodWebRequest
 
 		DoorUserJsonform form = new DoorUserJsonform();
-		form.setGroupuuid("7ac3897e-b0d8-4a32-ad61-4f4a96496774");
-		form.setPrivate_key("5678");
-		form.setCardid("12345678");
-		form.setUserName("胡晓");
-		form.setIdNo("510322198203290695");
+		form.setGroupuuid("group_wj1");
+		form.setPrivate_key("4782");
+		form.setCardid("1");	
+		form.setUserid("145");
+		form.setUserName("学生1");
+//		form.setIdNo("510322198203290695");
 		
 		
 
@@ -120,7 +121,7 @@ public class DoorRecordTest extends AbstractHttpTest {
 		ByteArrayInputStream input = new ByteArrayInputStream(
 				json.getBytes(SystemConstants.Charset));
 		PostMethodWebRequest request = new PostMethodWebRequest(
-				TestConstants.host + "rest/doorrecord/autobind.json"+user.addParameter_JSESSIONID(), input,
+				TestConstants.host + "rest/doorrecord/autobind.json", input,
 				TestConstants.contentType);
 
 		WebResponse response = tryGetResponse(conversation, request);

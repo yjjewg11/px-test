@@ -6,7 +6,7 @@ import junit.framework.Test;
 import junit.framework.TestSuite;
 
 import com.company.news.SystemConstants;
-import com.company.news.jsonform.PxTeachingPlanJsonform;
+import com.company.news.jsonform.PushMessageJsonform;
 import com.company.ruanman.httptest.AbstractHttpTest;
 import com.company.ruanman.httptest.HttpUtils;
 import com.company.ruanman.httptest.JSONUtils;
@@ -17,7 +17,7 @@ import com.meterware.httpunit.WebConversation;
 import com.meterware.httpunit.WebRequest;
 import com.meterware.httpunit.WebResponse;
 
-public class PxTeachingPlanTest extends AbstractHttpTest {
+public class PushMessageTest extends AbstractHttpTest {
 	  public UserinfoTest user= new UserinfoTest();
 	/**
 	 * run this testcase as a suite from the command line
@@ -29,15 +29,16 @@ public class PxTeachingPlanTest extends AbstractHttpTest {
 	public static void main(String args[]) throws Exception {
 		// junit.textui.TestRunner.run( suite() );
 		
-		PxTeachingPlanTest o = new PxTeachingPlanTest();
+		PushMessageTest o = new PushMessageTest();
 		// o.testRegSuccess();
-	//o.testGetSuccess();
-		o.nextListSuccess();
-//		
-//		o.testAddSuccess();
-//		o.testListSuccess();
-//		
-//		o.testGetSuccess();
+		//o.testUpdateSuccess();
+        o.testupdateIOSParentVersionSuccess();
+		
+		//o.testGetSuccess();
+		
+		///o.testUpdateSuccess();
+		
+		//o.testGetSuccess();
 	}
 
 	/**
@@ -46,90 +47,75 @@ public class PxTeachingPlanTest extends AbstractHttpTest {
 	 * @return
 	 */
 	public static Test suite() {
-		return new TestSuite(PxTeachingPlanTest.class);
+		return new TestSuite(PushMessageTest.class);
 	}
 
-
-
-
-	
-	public void nextListSuccess() throws Exception {
-		WebConversation conversation = new WebConversation();
-		// GetMethodWebRequest
-		WebRequest request = new GetMethodWebRequest(TestConstants.host
-				+ "rest/pxteachingplan/nextList.json"+user.addParameter_JSESSIONID());
-
-		WebResponse response = tryGetResponse(conversation, request);
-
-		HttpUtils.println(conversation, request, response);
-		assertTrue("列表-成功", response.getText().indexOf("success") != -1);
-
-	}
-	
-	public void testListSuccess() throws Exception {
-		WebConversation conversation = new WebConversation();
-		// GetMethodWebRequest
-		WebRequest request = new GetMethodWebRequest(TestConstants.host
-				+ "rest/pxteachingplan/list.json"+user.addParameter_JSESSIONID()
-				+"&begDateStr=2015-06-10&endDateStr=2015-06-20&classuuid=51a05579-cf42-42aa-aafc-4ef0a520e1e8");
-
-		WebResponse response = tryGetResponse(conversation, request);
-
-		HttpUtils.println(conversation, request, response);
-		assertTrue("列表-成功", response.getText().indexOf("success") != -1);
-
-	}
-	
-	
 	/**
 	 * Verifies that submitting the login form without entering a name results
 	 * in a page containing the text "Login failed"
 	 **/
-	public void testAddSuccess() throws Exception {
+	public void testupdateIOSParentVersionSuccess() throws Exception {
 		WebConversation conversation = new WebConversation();
 		// GetMethodWebRequest
-		PxTeachingPlanJsonform t = new PxTeachingPlanJsonform();
 
-		t.setName("英语课");
-		t.setClassuuid("51a05579-cf42-42aa-aafc-4ef0a520e1e8");
-		t.setReadyfor("带英语书");
-		t.setContext("国际第一的英语认证");
-	    //t.setUuid("d673f6aa-e5dd-449b-a1d9-b53ebcfec8ad");
-
-		t.setPlandateStr("2015-06-18 13:00:00");
-		t.setDuration("1小时");
+		PushMessageJsonform form = new PushMessageJsonform();
+		form.setUrl("http://mp.weixin.qq.com/s?__biz=MzI2MzAyNTk2MQ==&mid=401940821&idx=1&sn=1fa2bad7b231a7880cca7541be54e72c#rd");
+		form.setTitle("家长IOS版本更新");
+		form.setMessage("版本更新到1.5");
+		form.setType(0);
 		
 
-		String json = JSONUtils.getJsonString(t);
+		String json = JSONUtils.getJsonString(form);
 		HttpUtils.printjson(json);
 		ByteArrayInputStream input = new ByteArrayInputStream(
 				json.getBytes(SystemConstants.Charset));
-		PostMethodWebRequest request = new PostMethodWebRequest(
-				TestConstants.host + "rest/pxteachingplan/save.json"+user.addParameter_JSESSIONID(), input,
-				TestConstants.contentType);
+//		PostMethodWebRequest request = new PostMethodWebRequest(
+//				TestConstants.host + "rest/pushMessage/updateIOSParentVersion.json"+user.addParameter_JSESSIONID(), input,
+//				TestConstants.contentType);
 
 		
+		PostMethodWebRequest request = new PostMethodWebRequest(
+				TestConstants.host + "rest/pushMessage/updateIOSTeacherVersion.json"+user.addParameter_JSESSIONID(), input,
+				TestConstants.contentType);
 		WebResponse response = tryGetResponse(conversation, request);
 
 		HttpUtils.println(conversation, request, response);
-		assertTrue("增加-成功", response.getText().indexOf("success") != -1);
+		assertTrue("-成功", response.getText().indexOf("success") != -1);
 
 	}
 
+	public void testListSuccess() throws Exception {
+		WebConversation conversation = new WebConversation();
+		// GetMethodWebRequest
+		WebRequest request = new GetMethodWebRequest(TestConstants.host
+				+ "rest/message/list.json"+user.addParameter_JSESSIONID()
+				+"&type=0&useruuid=01e3c4d6-53e8-4fd9-b3df-888b7ba52184");
+
+		WebResponse response = tryGetResponse(conversation, request);
+
+		HttpUtils.println(conversation, request, response);
+		assertTrue("列表-成功", response.getText().indexOf("success") != -1);
+
+	}
 	
+	
+
+	/**
+	 * Verifies that submitting the login form without entering a name results
+	 * in a page containing the text "Login failed"
+	 **/
 	public void testDeleteSuccess() throws Exception {
 		WebConversation conversation = new WebConversation();
 		// GetMethodWebRequest
 
-
 		PostMethodWebRequest request = new PostMethodWebRequest(
-				TestConstants.host + "rest/teachingplan/delete.json"+user.addParameter_JSESSIONID()
-				+"&uuid=aeb7cedc-eed4-4c38-bf88-a723fd4f7a90");
+				TestConstants.host + "rest/message/delete.json"+user.addParameter_JSESSIONID()+
+				"&uuid=47c9b76a-abd6-4ecc-acb6-168935e3cad3");
 
 		WebResponse response = tryGetResponse(conversation, request);
 
 		HttpUtils.println(conversation, request, response);
-		assertTrue("成功", response.getText().indexOf("success") != -1);
+		assertTrue("删除权限-成功", response.getText().indexOf("success") != -1);
 
 	}
 	
@@ -137,7 +123,7 @@ public class PxTeachingPlanTest extends AbstractHttpTest {
 		WebConversation conversation = new WebConversation();
 		// GetMethodWebRequest
 		WebRequest request = new GetMethodWebRequest(TestConstants.host
-				+ "rest/pxteachingplan/2ba67ed4-8180-4318-8a2f-c40efebcf46d.json"+user.addParameter_JSESSIONID());
+				+ "rest/message/47c9b76a-abd6-4ecc-acb6-168935e3cad3.json"+user.addParameter_JSESSIONID());
 
 		WebResponse response = tryGetResponse(conversation, request);
 
@@ -145,4 +131,5 @@ public class PxTeachingPlanTest extends AbstractHttpTest {
 		assertTrue("成功", response.getText().indexOf("success") != -1);
 
 	}
+
 }

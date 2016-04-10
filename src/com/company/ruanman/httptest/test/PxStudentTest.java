@@ -39,12 +39,15 @@ public class PxStudentTest extends AbstractHttpTest {
 		// o.testRegSuccess();
 		//o.testListSuccess();
         //o.testGetSuccess();
-		o.testAddSuccess();
+//		o.testAddSuccess();
+//		
+//		o.testListSuccess();
+//		//o.testQuerybyRightSuccess();
+//		o.testParentContactByMyStudentSuccess();
+//		o.testGetSuccess();
+//		o.testaddStudentClass();
+		o.testdeleteStudentClass();
 		
-		o.testListSuccess();
-		//o.testQuerybyRightSuccess();
-		o.testParentContactByMyStudentSuccess();
-		o.testGetSuccess();
 	}
 
 	/**
@@ -145,6 +148,41 @@ public class PxStudentTest extends AbstractHttpTest {
 
 		HttpUtils.println(conversation, request, response);
 		assertTrue("增加-成功", response.getText().indexOf("success") != -1);
+
+	}
+	
+
+	public void testaddStudentClass() throws Exception {
+		WebConversation conversation = new WebConversation();
+		// GetMethodWebRequest
+
+
+		PostMethodWebRequest request = new PostMethodWebRequest(
+				TestConstants.host + "rest/pxstudent/addStudentClass.json"+user.addParameter_JSESSIONID());
+		request.setParameter("student_uuid", "001acc35-e4d0-4539-a5d5-12fb1c919eee");
+		request.setParameter("class_uuid", "063ca1ab-426c-4576-a405-da6fb7e7ab9f");
+		WebResponse response = tryGetResponse(conversation, request);
+
+		HttpUtils.println(conversation, request, response);
+		assertTrue("成功", response.getText().indexOf("success") != -1);
+
+	}
+	
+
+	public void testdeleteStudentClass() throws Exception {
+		WebConversation conversation = new WebConversation();
+		// GetMethodWebRequest
+
+
+		PostMethodWebRequest request = new PostMethodWebRequest(
+				TestConstants.host + "rest/pxstudent/deleteStudentClass.json"+user.addParameter_JSESSIONID()
+				+"&uuid=aeb7cedc-eed4-4c38-bf88-a723fd4f7a90");
+		request.setParameter("student_uuid", "001acc35-e4d0-4539-a5d5-12fb1c919eee");
+		request.setParameter("class_uuid", "063ca1ab-426c-4576-a405-da6fb7e7ab9f");
+		WebResponse response = tryGetResponse(conversation, request);
+
+		HttpUtils.println(conversation, request, response);
+		assertTrue("成功", response.getText().indexOf("success") != -1);
 
 	}
 

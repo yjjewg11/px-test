@@ -23,7 +23,8 @@ import com.meterware.httpunit.WebResponse;
 
 
 public class UserinfoTest extends AbstractHttpTest {
-  
+	 //13628037996,13628037994,13668392967(huwenming)
+	  static public String tel=TestConstants.tel;
   public String sessionid=null;
   
   public String getLoginSessionid() throws Exception {
@@ -99,7 +100,42 @@ public class UserinfoTest extends AbstractHttpTest {
         assertTrue( "登录-失败", response.getText().indexOf( "failed" ) != -1 );
         }
   
+  /**
+   * Verifies that submitting the login form without entering a name results in a page
+   * containing the text "Login failed"
+   **/
+  
+  
+  /**
+   * Verifies that submitting the login form without entering a name results in a page
+   * containing the text "Login failed"
+   **/
+  public void testAdminLoginSuccess() throws Exception {
+		testAdminLoginSuccess("13628037994", "123");
+//	  testAdminLoginSuccess("123", "123");
+  }
+  public void testAdminLoginSuccess(String tel1,String password1) throws Exception {
+      WebConversation     conversation = new WebConversation();
+      //GetMethodWebRequest
+      String url= TestConstants.host+"rest/userinfo/login.json?loginname="+tel1+"&password="+MD5Until.getMD5String(password1)+"&grouptype=0";
+      WebRequest  request = new PostMethodWebRequest(url);
 
+      WebResponse response = tryGetResponse(conversation, request );
+//      WebForm loginForm = response.getForms()[0];
+//      request = loginForm.getRequest();
+//      response = conversation.getResponse( request );
+        HttpUtils.println(conversation, request, response);
+        assertTrue( "登录-成功", response.getText().indexOf( "success" ) != -1 );
+        
+        
+      if (response.getContentType().equals("application/json")) {
+        JSONObject jsonObject = JSONObject.fromObject(response.getText());
+        this.sessionid=(String)jsonObject.get("JSESSIONID");
+        //System.out.println("JSESSIONID="+this.sessionid); // Benju
+       }
+//
+//      assertTrue( "Login not rejected", response.getText().indexOf( "Login failed" ) != -1 );
+  }
   /**
    * Verifies that submitting the login form without entering a name results in a page
    * containing the text "Login failed"
@@ -107,8 +143,10 @@ public class UserinfoTest extends AbstractHttpTest {
   public void testLoginSuccess() throws Exception {
       WebConversation     conversation = new WebConversation();
       //GetMethodWebRequest
-      WebRequest  request = new PostMethodWebRequest( TestConstants.host+"rest/userinfo/login.json?loginname="+"13882217972"+"&password="+MD5Until.getMD5String("123456") );
-        WebResponse response = tryGetResponse(conversation, request );
+      String url= TestConstants.host+"rest/userinfo/login.json?loginname="+tel+"&password="+MD5Until.getMD5String(TestConstants.password)+"&grouptype=0";
+      WebRequest  request = new PostMethodWebRequest(url);
+
+      WebResponse response = tryGetResponse(conversation, request );
 //      WebForm loginForm = response.getForms()[0];
 //      request = loginForm.getRequest();
 //      response = conversation.getResponse( request );
