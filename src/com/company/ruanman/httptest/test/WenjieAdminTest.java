@@ -6,6 +6,7 @@ import java.util.List;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
+import com.company.news.rest.util.MD5Until;
 import com.company.ruanman.httptest.AbstractHttpTest;
 import com.company.ruanman.httptest.HttpUtils;
 import com.company.ruanman.httptest.TestConstants;
@@ -28,31 +29,19 @@ public class WenjieAdminTest extends AbstractHttpTest {
 		// junit.textui.TestRunner.run( suite() );
 		
 		WenjieAdminTest o = new WenjieAdminTest();
-		// o.testRegSuccess();
-		//o.testUpdateSuccess();
-        
-		//o.testListSuccess();
+	
 		
-		//o.testAddSuccess();
-		
-		///o.testUpdateSuccess();
 		o.user.testAdminLoginSuccess();
 		
+		o.testcameraListToDB();
+		
+		if(true)return;
+		
+		//注册用户
 		
 		List<String[]> list=new ArrayList();
-//		list.add(new String[]{"13980881207","123456"});
-		list.add(new String[]{"18727598356","123456"});
-		list.add(new String[]{"18108098156","123456"});
-		list.add(new String[]{"18908043910","123456"});
-		list.add(new String[]{"13076065369","123456"});
-		list.add(new String[]{"15608951189","123456"});
-		list.add(new String[]{"13551088254","123456"});
-		list.add(new String[]{"13558750425","123456"});
-		list.add(new String[]{"18782180071","123456"});
-		list.add(new String[]{"13628015695","123456"});
-		list.add(new String[]{"18683627768","123456"});
-		
-		
+
+		list.add(new String[]{"18980927900","123456"});
 		for(String[] s:list){
 			System.out.println("tel="+s[0]);
 		
@@ -64,6 +53,48 @@ public class WenjieAdminTest extends AbstractHttpTest {
 			}
 		}
 		
+		
+		
+		
+//		list.add(new String[]{"13980881207","123456"});
+//		list.add(new String[]{"18727598356","123456"});
+//		list.add(new String[]{"18108098156","123456"});
+//		list.add(new String[]{"18908043910","123456"});
+//		list.add(new String[]{"13076065369","123456"});
+//		list.add(new String[]{"15608951189","123456"});
+//		list.add(new String[]{"13551088254","123456"});
+//		list.add(new String[]{"13558750425","123456"});
+//		list.add(new String[]{"18782180071","123456"});
+//		list.add(new String[]{"13628015695","123456"});
+//		list.add(new String[]{"18683627768","123456"});
+		
+//		已添加
+		
+		
+//		list.add(new String[]{"15559134488","123456"});
+//		list.add(new String[]{"13518130328","123456"});
+//		list.add(new String[]{"13982262385","123456"});
+//		
+//		list.add(new String[]{"13980777023","123456"});
+//		list.add(new String[]{"18782106966","123456"});
+//		
+//		list.add(new String[]{"15928443989","123456"});
+//		list.add(new String[]{"15008241665","123456"});
+//		list.add(new String[]{"18982275502","123456"});
+//		list.add(new String[]{"13540451536","123456"});
+//		
+//		
+		//0412
+		//新加
+//		list.add(new String[]{"18284511413","123456"});
+//		list.add(new String[]{"17713578144","123456"});
+//		
+		//已添加了
+//		list.add(new String[]{"15184302483","123456"});//2016-04-12 15:18:43
+//		list.add(new String[]{"13688401125","123456"});//2016-04-11 16:54:18
+		
+//		list.add(new String[]{"15559134488","123456"});//2016-04-11 17:04:51
+		
 	}
 
 	/**
@@ -73,6 +104,27 @@ public class WenjieAdminTest extends AbstractHttpTest {
 	 */
 	public static Test suite() {
 		return new TestSuite(WenjieAdminTest.class);
+	}
+	
+	/**
+	 * Verifies that submitting the login form without entering a name results
+	 * in a page containing the text "Login failed"
+	 **/
+	public void testcameraListToDB() throws Exception {
+		WebConversation conversation = new WebConversation();
+		// GetMethodWebRequest
+
+		PostMethodWebRequest request = new PostMethodWebRequest(
+				TestConstants.host + "rest/wenjieAdmin/cameraListToDB.json");
+		request.setParameter("JSESSIONID", user.getLoginSessionid());
+		WebResponse response = tryGetResponse(conversation, request);
+		HttpUtils.println(conversation, request, response);
+		
+		if(response.getText().indexOf("success") != -1){
+//			System.out.println("tel="+tel+",md5="+md5);
+		}
+//		assertTrue("-成功", response.getText().indexOf("success") != -1);
+
 	}
 
 	/**
@@ -87,13 +139,16 @@ public class WenjieAdminTest extends AbstractHttpTest {
 				TestConstants.host + "rest/wenjieAdmin/parentReg.json");
 		request.setParameter("JSESSIONID", user.getLoginSessionid());
 		request.setParameter("tel", tel);
-		request.setParameter("password",password);
+		
+		String md5=MD5Until.getMD5String(password);
+		System.out.println("tel="+tel+",md5="+md5);
+		request.setParameter("password",md5);
 		WebResponse response = tryGetResponse(conversation, request);
 
 		HttpUtils.println(conversation, request, response);
 		
 		if(response.getText().indexOf("success") != -1){
-			System.out.println("tel="+tel);
+//			System.out.println("tel="+tel+",md5="+md5);
 		}
 //		assertTrue("-成功", response.getText().indexOf("success") != -1);
 
